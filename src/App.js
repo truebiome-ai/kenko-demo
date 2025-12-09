@@ -36,6 +36,8 @@ function App() {
 
   const chatWindowRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [widgetOpen, setWidgetOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
 
   // Auto-scroll
   useEffect(() => {
@@ -109,11 +111,18 @@ ADVANCED MICROBIOME INTERPRETATION (ENHANCED MODE):
 
 `;
 // ------------------------------
-//         SEND MESSAGE
+//    Idk what this one is oops
 // ------------------------------
 const handleSuggestion = (text) => {
   setShowSuggestions(false);
   setInput(text);
+};
+// ------------------------------
+//     TOGGLE WIDGET (OPEN/CLOSE)
+// ------------------------------
+const toggleWidget = () => {
+    setWidgetOpen(!widgetOpen);
+    setShowTooltip(false);
 };
 
   // ------------------------------
@@ -270,70 +279,90 @@ if (!authorized) {
   // ------------------------------
   return (
     <div className="app">
-      <AnimatePresence>
-        <motion.div
-          className="chat-window"
-          ref={chatWindowRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 60, damping: 10 }}
-        >
-          <div className="chat-header">InnerBuddies AI Guide</div>
+      {/* Floating Launcher Bubble */}
+<div className="chat-launcher" onClick={toggleWidget}>
+    💬
+</div>
 
-          <div className="messages-container">
-            {messages.map((msg, i) => (
-              <motion.div
-                key={i}
-                className={`message ${msg.role}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: msg.content.replace(/\n/g, "<br/>"),
-                  }}
-                />
-              </motion.div>
-            ))}
-            
+{/* Tooltip - one-time popup */}
+{showTooltip && !widgetOpen && (
+    <div className="tooltip-once">Hi! Ask me anything about your gut 🌱</div>
+)}
+      {/* Chat window appears only when widget is open */}
+{widgetOpen && (
+  <div className="chat-widget-container">
+    <AnimatePresence>
+      <motion.div
+        className="chat-window"
+        ref={chatWindowRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 60, damping: 10 }}
+      >
+        <div className="chat-header">InnerBuddies AI Guide</div>
 
-            {loading && (
-              <div className="message assistant typing-dots">
-                <span className="dot" />
-                <span className="dot" />
-                <span className="dot" />
-              </div>
-            )}
+        <div className="messages-container">
+          {messages.map((msg, i) => (
+            <motion.div
+              key={i}
+              className={`message ${msg.role}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: msg.content.replace(/\n/g, "<br/>"),
+                }}
+              />
+            </motion.div>
+          ))}
+
+          {loading && (
+            <div className="message assistant typing-dots">
+              <span className="dot" />
+              <span className="dot" />
+              <span className="dot" />
+            </div>
+          )}
+        </div>
+
+        {/* Suggestions */}
+        {showSuggestions && (
+          <div className="suggestions">
+            <button onClick={() => handleSuggestion("Summarize my microbiome results")}>
+              Summarize my results
+            </button>
+            <button onClick={() => handleSuggestion("What foods should I eat for my gut?")}>
+              Food for my gut
+            </button>
+            <button onClick={() => handleSuggestion("Explain my bacteria diversity")}>
+              Explain diversity
+            </button>
           </div>
- {showSuggestions && (
-  <div className="suggestions">
-    <button onClick={() => handleSuggestion("Summarize my microbiome results")}>
-      Summarize my results
-    </button>
-    <button onClick={() => handleSuggestion("What foods should I eat for my gut?")}>
-      Food for my gut
-    </button>
-    <button onClick={() => handleSuggestion("Explain my bacteria diversity")}>
-      Explain diversity
-    </button>
+        )}
+
+        {/* Input */}
+        <div className="input-area">
+          <input
+            type="text"
+            placeholder="Ask about your microbiome results..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
+
+        {/* Footer */}
+        <div className="trubiome-footer">
+          Powered by <span>TruBiome.AI</span>
+        </div>
+
+      </motion.div>
+    </AnimatePresence>
   </div>
 )}
 
-          <div className="input-area">
-            <input
-              type="text"
-              placeholder="Ask about your microbiome results..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <button onClick={sendMessage}>Send</button>
-          </div>
-          <div className="trubiome-footer">
-  Powered by <span>TruBiome.AI</span>
-</div>
-        </motion.div>
-      </AnimatePresence>
     </div>
   );
 }
