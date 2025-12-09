@@ -1,17 +1,3 @@
-/* ----- DEMO BACKGROUND (InnerBuddies Dashboard Mock) ----- */
-
-body {
-  background: url('../public/innerbuddies-dashboard.png') no-repeat center top;
-  background-size: 100% auto;       /* fits width perfectly */
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-color: #ffffff;        /* fallback */
-}
-
-.app {
-  background: transparent !important;
-}
-
 /* ---------- GLOBAL PAGE ---------- */
 
 body {
