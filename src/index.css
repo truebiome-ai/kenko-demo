@@ -1,15 +1,5 @@
 /* ----- GLOBAL BACKGROUND (InnerBuddies Dashboard Mock) ----- */
 
-/* Background mockup */
-body {
-  background-image: url("/innerbuddies-dashboard.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  background-color: #000; /* fallback */
-}
-
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
