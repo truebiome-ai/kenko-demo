@@ -43,6 +43,7 @@ html, body {
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box; 
+   height: calc(100vh - 200px); /* or whatever fits */
   overflow-y: auto;
   overflow-x: hidden;      /* <-- PREVENTS CLIPPING */
   scrollbar-width: thin;
