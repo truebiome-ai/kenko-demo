@@ -390,3 +390,33 @@ html, body {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+ .footer {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0.85;
+}
+
+.footer-logo {
+  width: 120px;           /* or whatever looks best */
+  margin-bottom: 8px;
+}
+
+.footer .copyright {
+  color: #bbbbbb;
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+
+.footer .terms-link {
+  color: #8f9bff;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.footer .terms-link:hover {
+  text-decoration: underline;
+}

@@ -270,6 +270,14 @@ if (!authorized) {
           Unlock Demo
         </button>
       </div>
+      <div className="footer">
+  <img src="/logo-transparent.png" alt="TruBiome.AI" className="footer-logo" />
+  <p className="copyright">
+    © 2025 TruBiome.AI • All rights reserved  
+  </p>
+  <a href="#" className="terms-link">Terms of Use</a>
+</div>
+
     </div>
   );
 }
