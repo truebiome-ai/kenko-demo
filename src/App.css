@@ -312,8 +312,10 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 2px 0 6px 0;   /* MUCH tighter spacing */
+  margin: 2px 0 6px 0;
+  max-width: 100%;  /* prevents overflow */
 }
+
 
 .suggestions button {
   background: rgba(244, 210, 74, 0.12);   /* soft translucent yellow */
@@ -335,16 +337,19 @@ body {
   bottom: 100px;
   right: 24px;
 
-  width: 420px;                /* good size */
-  max-height: 80vh;            /* allows tall content */
-  overflow: visible;           /* IMPORTANT: stop squeezing inner content */
-
+  width: 420px;
+  max-height: 80vh;
   z-index: 99998;
 
-  background: transparent;     /* keep outer container invisible */
+  /* allow the chat window to render fully */
+  overflow: visible !important;
+
+  background: transparent; /* outer wrapper should NOT be dark */
   border-radius: 20px;
+
   animation: popup 0.25s ease;
 }
+
 
 
 @keyframes fadeIn {
