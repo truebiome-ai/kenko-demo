@@ -153,26 +153,30 @@ if (!authorized) {
       }}
     >
       <div
-        style={{
-          background: "#111",
-          padding: "40px",
-          borderRadius: "16px",
-          width: "320px",
-          boxShadow: "0 0 30px rgba(0, 0, 0, 0.4)",
-          textAlign: "center",
-        }}
-      >
+  style={{
+    background: "#111",
+    padding: "40px",
+    borderRadius: "20px",
+    width: "340px",
+    textAlign: "center",
+    boxShadow: "0 0 60px rgba(92, 59, 143, 0.45)", // ⬅ Purple glow
+    animation: "riseIn 0.7s ease-out",            // ⬅ Smooth entrance
+  }}
+>
+
 
         {/* ⭐ INNERBUDDIES LOGO */}
         <img 
-          src="/innerbuddies-logo.png" 
-          alt="InnerBuddies Logo"
-          style={{
-            width: "140px",
-            marginBottom: "18px",
-            opacity: 0.95
-          }}
-        />
+  src="/innerbuddies-logo.png" 
+  alt="InnerBuddies Logo"
+  style={{
+    width: "180px",          // ⬅ Bigger logo
+    marginBottom: "22px",
+    opacity: 0.98,
+    animation: "fadeIn 0.9s ease-out",
+  }}
+/>
+
 
         <h2
           style={{
