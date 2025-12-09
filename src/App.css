@@ -11,9 +11,11 @@ body {
 
 }
 html, body {
-  height: 100%;
-  overflow-y: auto;
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto !important;
 }
+
 
 /* Center the chatbot on the page */
 .app {
@@ -43,7 +45,7 @@ html, body {
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box; 
-   height: calc(100vh - 200px); /* or whatever fits */
+  max-height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;      /* <-- PREVENTS CLIPPING */
   scrollbar-width: thin;
