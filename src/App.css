@@ -332,26 +332,6 @@ body {
   background: rgba(244, 210, 74, 0.28);   /* brighter on hover */
   transform: translateY(-1px);
 }
-.chat-widget-container {
-  position: fixed;
-  bottom: 100px;
-  right: 24px;
-
-  width: 420px;
-  max-height: 80vh;
-  z-index: 99998;
-
-  /* allow the chat window to render fully */
-  overflow: visible !important;
-
-  background: transparent; /* outer wrapper should NOT be dark */
-  border-radius: 20px;
-
-  animation: popup 0.25s ease;
-}
-
-
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
