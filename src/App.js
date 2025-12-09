@@ -3,31 +3,67 @@ import React, { useState, useEffect, useRef } from "react";
 import { OpenAI } from "openai";
 import "./App.css";
 import { motion, AnimatePresence } from "framer-motion";
+import mockData from "./mockData.json";       // <-- NEW
 import Chatbot from "./components/Chatbot.jsx";
 
-// OpenAI client
+// ------------------------------
+//  SYSTEM PROMPT
+// ------------------------------
+const systemPrompt = `
+You are the InnerBuddies AI Guide, created by TruBiome.AI. 
+Your job is to help users understand their microbiome results in a safe, friendly, and non-medical way.
+
+IMPORTANT BEHAVIOR:
+- Do NOT automatically analyze microbiome results unless the user asks.
+- When the user requests explanation, summarization, or interpretation:
+    → Read from the JSON microbiome data included in system messages.
+- If the user has not asked about microbiome results, behave like a normal helpful assistant.
+- Never ask the user to paste raw JSON or give lab data.
+- Never give diagnostic statements or medical claims.
+
+SAFE LANGUAGE:
+Use phrases like:
+- “may support”
+- “is associated with”
+- “research suggests”
+- “is linked to”
+Avoid terms like:
+- “treats”
+- “cures”
+- “prevents”
+- any disease names
+
+RESPONSE STYLE:
+- Friendly, warm, encouraging.
+- 3–5 short sentences unless the user asks for deeper detail.
+- Use simple, human language.
+
+OPENING MESSAGE:
+“Hi! I can help you understand your microbiome results and wellness insights. What would you like to explore?”
+`;
+
+
+// ------------------------------
+//  OPENAI CLIENT
+// ------------------------------
 const openai = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 
+
 // ------------------------------
-//            APP COMPONENT
+//              APP
 // ------------------------------
 function App() {
-  // 🔐 PASSWORD PROTECTION
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
   const correctPassword = "IB2025!";
 
-  // Chat states
   const [messages, setMessages] = useState([
-    {
-      role: "assistant",
-      content:
-        "Hi! I’m the InnerBuddies AI Guide. I can help explain microbiome test results, clarify your dashboard insights, and offer general food & lifestyle suggestions. What would you like to explore?",
-    },
+    { role: "assistant", content: "Hi! I can help you understand your microbiome results and wellness insights. What would you like to explore?" },
   ]);
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -43,43 +79,9 @@ function App() {
     }
   }, [messages]);
 
-  // ------------------------------
-  //  SYSTEM PROMPT (InnerBuddies)
-  // ------------------------------
-  const systemPrompt = `
-You are the InnerBuddies AI Guide — a supportive, educational assistant designed 
-to help users understand their microbiome test results.
-
-Your role:
-- Explain patterns in the data the dashboard provides.
-- Provide science-based wellness insights.
-- Give food, lifestyle, and supplement suggestions.
-- Stay clear, simple, encouraging, and accurate.
-- DO NOT diagnose medical conditions.
-- DO NOT claim disease, pathology, or medical treatment.
-- Keep all guidance general, not personalized medical advice.
-
-Data Provided:
-{{USER_MICROBIOME_JSON}}
-
-Guidance Rules:
-- Refer only to the structured data provided.
-- Use phrases like “is commonly associated with,” “may suggest a pattern of,” 
-  “often correlates with,” “supports,” or “may be helpful.”
-- Avoid phrases like “you have,” “you should treat,” “this means you suffer from.”
-- Give short, clear explanations (3–5 sentences max).
-- Ask 1 follow-up question to better tailor lifestyle or nutrition suggestions.
-- If the user asks for something medical, redirect to: 
-  “I recommend discussing this with your healthcare provider.”
-
-Your goals:
-- Make the user feel informed, supported, empowered.
-- Help them understand what their test reveals about diet, lifestyle, and gut patterns.
-- Provide actionable insights without overstepping into clinical diagnostics.
-`;
 
   // ------------------------------
-  //         SEND MESSAGE
+  //        SEND MESSAGE
   // ------------------------------
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -91,136 +93,89 @@ Your goals:
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
+
+          // Inject microbiome JSON into context (but bot only uses it if asked!)
+          {
+            role: "system",
+            content: "Here is the user's microbiome data (demo mode): " + JSON.stringify(mockData)
+          },
+
           ...newMessages,
         ],
-        temperature: 0.65,
+        temperature: 0.6,
       });
 
       const botMessage = response.choices[0].message.content;
 
-      setMessages([...newMessages, { role: "assistant", content: botMessage }]);
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: botMessage },
+      ]);
     } catch (err) {
       console.error("OpenAI Error:", err);
       setMessages([
         ...newMessages,
-        {
-          role: "assistant",
-          content: "Hmm — something went wrong. Could you try that again?",
-        },
+        { role: "assistant", content: "Oops — something went wrong. Can you try again?" },
       ]);
     }
 
     setLoading(false);
   };
 
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") sendMessage();
   };
 
+
   // ------------------------------
-  // 🔐 PASSWORD SCREEN RENDER
+  //     PASSWORD SCREEN
   // ------------------------------
-if (!authorized) {
-  return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#000",
-      }}
-    >
-      <div
-  style={{
-    background: "#111",
-    padding: "40px",
-    borderRadius: "20px",
-    width: "340px",
-    textAlign: "center",
-    boxShadow: "0 0 60px rgba(92, 59, 143, 0.45)", // ⬅ Purple glow
-    animation: "riseIn 0.7s ease-out",            // ⬅ Smooth entrance
-  }}
->
+  if (!authorized) {
+    return (
+      <div className="password-screen">
+        <div className="password-card">
 
+          {/* Logo */}
+          <img
+            src="/innerbuddies-logo.png"
+            alt="InnerBuddies"
+            className="password-logo"
+          />
 
-        {/* ⭐ INNERBUDDIES LOGO */}
-        <img 
-  src="/innerbuddies-logo.png" 
-  alt="InnerBuddies Logo"
-  style={{
-    width: "180px",          // ⬅ Bigger logo
-    marginBottom: "22px",
-    opacity: 0.98,
-    animation: "fadeIn 0.9s ease-out",
-  }}
-/>
+          <h2>Enter Password</h2>
+          <p>This demo is private and requires a password to view.</p>
 
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <h2
-          style={{
-            color: "white",
-            marginBottom: "10px",
-            fontWeight: "600",
-            fontSize: "1.4rem",
-          }}
-        >
-          Enter Password
-        </h2>
-
-        <p style={{ color: "#bbb", fontSize: "0.9rem", marginBottom: "20px" }}>
-          This demo is private and requires a password to view.
-        </p>
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #333",
-            background: "#222",
-            color: "white",
-            marginBottom: "20px",
-          }}
-        />
-
-        <button
-          onClick={() => {
-            if (password === correctPassword) {
-              setAuthorized(true);
-            } else {
-              alert("Incorrect password");
-            }
-          }}
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            background: "linear-gradient(120deg, #5C3B8F, #7ECF9A)", // InnerBuddies purple → green
-            color: "white",
-            fontWeight: "bold",
-            cursor: "pointer",
-            border: "none",
-            marginTop: "6px",
-          }}
-        >
-          Unlock Demo
-        </button>
+          <button
+            onClick={() => {
+              if (password === correctPassword) {
+                setAuthorized(true);
+              } else {
+                alert("Incorrect password");
+              }
+            }}
+            className="password-button"
+          >
+            Unlock Demo
+          </button>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 
   // ------------------------------
-  //          MAIN UI
+  //            MAIN UI
   // ------------------------------
   return (
     <div className="app">
@@ -249,7 +204,6 @@ if (!authorized) {
                 />
               </motion.div>
             ))}
-            
 
             {loading && (
               <div className="message assistant typing-dots">
@@ -270,9 +224,10 @@ if (!authorized) {
             />
             <button onClick={sendMessage}>Send</button>
           </div>
+
           <div className="trubiome-footer">
-  Powered by <span>TruBiome.AI</span>
-</div>
+            Powered by <span>TruBiome.AI</span>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

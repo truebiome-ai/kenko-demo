@@ -1,0 +1,134 @@
+{
+  "user": {
+    "id": "MOCK-3",
+    "activation_date": "2024-10-08",
+    "gender": "Other",
+    "dob": "2000-01-01"
+  },
+
+  "summary": {
+    "bacteria_score": "good",
+    "bacteria_diversity": "high",
+    "fb_ratio": 2.72,
+    "focus_area": {
+      "longevity": 56
+    }
+  },
+
+  "nutrient_intake": {
+    "carbs_g": 48,
+    "fiber_g": 11,
+    "fat_g": 12,
+    "sat_fat_g": 3,
+    "protein_g": 32
+  },
+
+  "bacteria_abundance": {
+    "Christensenellaceae R-7 group": 10.97,
+    "Bacteroides": 9.32,
+    "Lachnospiraceae NK4A136 group": 5.76,
+    "Faecalibacterium": 3.57,
+    "UCG-005": 3.01,
+    "Prevotella 9": 2.72,
+    "NK4A214 group": 2.63,
+    "Alistipes": 2.62,
+    "UCG-002": 2.60,
+    "Barnesiella": 2.52,
+    "Ruminococcus": 1.99,
+    "Dialister": 1.96,
+    "Akkermansia": 1.92,
+    "Roseburia": 1.80,
+    "UCG-003": 1.67,
+    "Phascolarctobacterium": 1.47,
+    "Parabacteroides": 1.15,
+    "Odoribacter": 1.09,
+    "Paraprevotella": 1.03,
+    "Subdoligranulum": 0.90,
+    "Desulfovibrio": 0.87,
+    "Blautia": 0.79,
+    "Bifidobacterium": 0.70,
+    "Sutterella": 0.68,
+    "Butyricimonas": 0.64,
+    "Agathobacter": 0.62,
+    "Lachnospiraceae UCG-008": 0.49,
+    "Coprococcus": 0.44,
+    "Coprobacter": 0.41,
+    "Lachnospiraceae UCG-001": 0.40,
+    "Lachnospira": 0.39,
+    "Methanobrevibacter": 0.39,
+    "Eubacterium siraeum group": 0.37,
+    "Colidextribacter": 0.34,
+    "Fusicatenibacter": 0.32,
+    "Bilophila": 0.29,
+    "Eubacterium eligens group": 0.29,
+    "UCG-004": 0.27,
+    "Victivallis": 0.27,
+    "Eubacterium ruminantium group": 0.24,
+    "Butyricicoccus": 0.23,
+    "Lachnoclostridium": 0.23,
+    "Eubacterium xylanophilum group": 0.19,
+    "Lachnospiraceae NC2004 group": 0.18,
+    "Dorea": 0.18,
+    "Lachnospiraceae UCG-004": 0.16,
+    "Family XIII AD3011 group": 0.16,
+    "Eubacterium hallii group": 0.15,
+    "Ruminococcus torques group": 0.14,
+    "Parasutterella": 0.13,
+    "Incertae Sedis": 0.11,
+    "Eubacterium oxidoreducens group": 0.11,
+    "Monoglobus": 0.11,
+    "Veillonella": 0.11,
+    "Brachyspira": 0.09,
+    "Collinsella": 0.09,
+    "Oxalobacter": 0.08,
+    "Holdemanella": 0.08,
+    "Anaerostipes": 0.07,
+    "Bacteroides pectinophilus group": 0.07,
+    "Oscillibacter": 0.07,
+    "Haemophilus": 0.07,
+    "Sanguibacteroides": 0.06,
+    "Marvinbryantia": 0.06,
+    "Lachnospiraceae FCS020 group": 0.06,
+    "Clostridium sensu stricto 1": 0.05,
+    "Lachnospiraceae ND3007 group": 0.05,
+    "GCA-900066575": 0.05
+  },
+
+  "functions": {
+    "good": {
+      "antioxidant_capacity": 39,
+      "detoxification": 51,
+      "essential_amino_acids": {
+        "histidine": 40,
+        "isoleucine": 55,
+        "leucine": 55,
+        "lysine": 31,
+        "methionine": 12,
+        "phenylalanine": 11,
+        "threonine": 29,
+        "tryptophan": 7,
+        "valine": 9
+      },
+      "scfa_acetate": 86,
+      "scfa_butyrate": 80,
+      "scfa_propionate": 71,
+      "vitamin_b1": 30,
+      "vitamin_b2": 16,
+      "vitamin_b7": 16,
+      "vitamin_b9": 10,
+      "vitamin_b12": 45,
+      "vitamin_k": 12,
+      "coq10": 11
+    },
+
+    "bad": {
+      "antibiotic_resistance": 0,
+      "inflammation": 19,
+      "toxin_production": 12
+    },
+
+    "other": {
+      "methane_production": 31
+    }
+  }
+}
