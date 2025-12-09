@@ -27,12 +27,15 @@ function App() {
       role: "assistant",
       content:
         "Hi! I’m the InnerBuddies AI Guide. I can help explain microbiome test results, clarify your dashboard insights, and offer general food & lifestyle suggestions. What would you like to explore?",
-    },
+   
+      },
+    
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const chatWindowRef = useRef(null);
+  const [showSuggestions, setShowSuggestions] = useState(true);
 
   // Auto-scroll
   useEffect(() => {
@@ -105,6 +108,13 @@ ADVANCED MICROBIOME INTERPRETATION (ENHANCED MODE):
     • Connect clusters of bacteria to specific functional outcomes  
 
 `;
+// ------------------------------
+//         SEND MESSAGE
+// ------------------------------
+const handleSuggestion = (text) => {
+  setShowSuggestions(false);
+  setInput(text);
+};
 
   // ------------------------------
   //         SEND MESSAGE
@@ -295,6 +305,19 @@ if (!authorized) {
               </div>
             )}
           </div>
+ {showSuggestions && (
+  <div className="suggestions">
+    <button onClick={() => handleSuggestion("Summarize my microbiome results")}>
+      Summarize my results
+    </button>
+    <button onClick={() => handleSuggestion("What foods should I eat for my gut?")}>
+      Food for my gut
+    </button>
+    <button onClick={() => handleSuggestion("Explain my bacteria diversity")}>
+      Explain diversity
+    </button>
+  </div>
+)}
 
           <div className="input-area">
             <input
