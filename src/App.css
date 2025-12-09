@@ -24,8 +24,8 @@ body {
 .chat-window {
   width: 100%;
   max-width: 420px;
-
-  background: #0D0A17;
+  
+  background: #0D0A17; /* matches your design */
   border-radius: 24px;
   padding: 18px 18px 20px;
 
@@ -39,11 +39,11 @@ body {
   flex-direction: column;
   gap: 8px;
 
-  max-height: 80vh;
-  overflow-y: auto;     /* only vertical scroll allowed */
-  overflow-x: hidden;   /* horizontal clipping removed */
+  box-sizing: border-box;
+  overflow-x: hidden; /* prevents accidental horizontal scrolling */
+  padding-right: 16px; /* adds safe inner space */  
+  scrollbar-width: thin;
 }
-
 
 
 /* ---------- HEADER ---------- */
@@ -311,11 +311,9 @@ body {
 .suggestions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
   gap: 8px;
-  max-width: 100%;
+  margin: 2px 0 6px 0;   /* MUCH tighter spacing */
 }
-
 
 .suggestions button {
   background: rgba(244, 210, 74, 0.12);   /* soft translucent yellow */
@@ -337,17 +335,16 @@ body {
   bottom: 100px;
   right: 24px;
 
-  width: 420px;
-  max-height: 80vh;
+  width: 420px;                /* good size */
+  max-height: 80vh;            /* allows tall content */
+  overflow: visible;           /* IMPORTANT: stop squeezing inner content */
+
   z-index: 99998;
 
-  overflow: visible !important;   /* <-- CRITICAL */
-  background: transparent;
+  background: transparent;     /* keep outer container invisible */
   border-radius: 20px;
-
   animation: popup 0.25s ease;
 }
-
 
 
 @keyframes fadeIn {
