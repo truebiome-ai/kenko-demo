@@ -48,6 +48,15 @@ function App() {
       });
     }
   }, [messages]);
+  // Dashboard background toggle
+useEffect(() => {
+  if (authorized) {
+    document.body.classList.add("dashboard-bg");
+  } else {
+    document.body.classList.remove("dashboard-bg");
+  }
+}, [authorized]);
+
 
   // ------------------------------
   //  SYSTEM PROMPT (InnerBuddies)
