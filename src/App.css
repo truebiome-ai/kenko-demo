@@ -1,5 +1,12 @@
 /* ---------- GLOBAL PAGE ---------- */
 
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #ffffff; /* keep clean white background */
+  color: #1A1528;
+}
+
 /* Center the chatbot on the page */
 .app {
   position: fixed;
