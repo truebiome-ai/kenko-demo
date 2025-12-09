@@ -38,7 +38,7 @@ body {
 /* ---------- HEADER ---------- */
 
 .chat-header {
-  background: linear-gradient(90deg, #7A3ECC, #5A2BAA);
+  background: linear-gradient(120deg, #7A3ECC, #2FD7C4);
   color: #ffffff;
   padding: 14px;
   border-radius: 16px;
@@ -48,6 +48,7 @@ body {
   letter-spacing: 0.5px;
   margin-bottom: 6px;
 }
+
 
 /* ---------- MESSAGES ---------- */
 
@@ -111,18 +112,19 @@ body {
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(120deg, #7A3ECC, #5A2BAA);
+  background: linear-gradient(120deg, #7A3ECC, #2FD7C4);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.9rem;
   white-space: nowrap;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 4px 14px rgba(122, 62, 204, 0.45);
+  box-shadow: 0 4px 14px rgba(122, 62, 204, 0.35);
 }
+
 
 .input-area button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(122, 62, 204, 0.6);
+  box-shadow: 0 6px 16px rgba(47, 215, 196, 0.45);
 }
 
 /* ---------- TYPING DOTS ---------- */
@@ -137,7 +139,7 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background-color: #7A3ECC;
+  background: linear-gradient(120deg, #7A3ECC, #2FD7C4);
   animation: blink 1.4s infinite ease-in-out both;
 }
 
