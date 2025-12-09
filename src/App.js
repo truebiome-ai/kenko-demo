@@ -141,71 +141,97 @@ END EVERY RESPONSE WITH:
   // ------------------------------
   // 🔐 PASSWORD SCREEN RENDER
   // ------------------------------
-  if (!authorized) {
-    return (
+if (!authorized) {
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "#000",
+      }}
+    >
       <div
         style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#000",
+          background: "#111",
+          padding: "40px",
+          borderRadius: "16px",
+          width: "320px",
+          boxShadow: "0 0 30px rgba(0, 0, 0, 0.4)",
+          textAlign: "center",
         }}
       >
-        <div
+
+        {/* ⭐ INNERBUDDIES LOGO */}
+        <img 
+          src="/innerbuddies-logo.png" 
+          alt="InnerBuddies Logo"
           style={{
-            background: "#111",
-            padding: "40px",
-            borderRadius: "16px",
-            width: "320px",
-            textAlign: "center",
+            width: "140px",
+            marginBottom: "18px",
+            opacity: 0.95
+          }}
+        />
+
+        <h2
+          style={{
+            color: "white",
+            marginBottom: "10px",
+            fontWeight: "600",
+            fontSize: "1.4rem",
           }}
         >
-          <h2 style={{ color: "white", marginBottom: "10px" }}>
-            Enter Password
-          </h2>
-          <p style={{ color: "#bbb", marginBottom: "20px" }}>
-            This demo is private and requires a password to view.
-          </p>
+          Enter Password
+        </h2>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "10px",
-              marginBottom: "20px",
-              background: "#222",
-              color: "white",
-              border: "1px solid #333",
-            }}
-          />
+        <p style={{ color: "#bbb", fontSize: "0.9rem", marginBottom: "20px" }}>
+          This demo is private and requires a password to view.
+        </p>
 
-          <button
-            onClick={() => {
-              if (password === correctPassword) setAuthorized(true);
-              else alert("Incorrect password");
-            }}
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "10px",
-              background: "linear-gradient(90deg, #8E2DE2, #4A00E0)",
-              color: "white",
-              fontWeight: "bold",
-              cursor: "pointer",
-              border: "none",
-            }}
-          >
-            Unlock Demo
-          </button>
-        </div>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "10px",
+            border: "1px solid #333",
+            background: "#222",
+            color: "white",
+            marginBottom: "20px",
+          }}
+        />
+
+        <button
+          onClick={() => {
+            if (password === correctPassword) {
+              setAuthorized(true);
+            } else {
+              alert("Incorrect password");
+            }
+          }}
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "10px",
+            background: "linear-gradient(120deg, #5C3B8F, #7ECF9A)", // InnerBuddies purple → green
+            color: "white",
+            fontWeight: "bold",
+            cursor: "pointer",
+            border: "none",
+            marginTop: "6px",
+          }}
+        >
+          Unlock Demo
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   // ------------------------------
   //          MAIN UI
