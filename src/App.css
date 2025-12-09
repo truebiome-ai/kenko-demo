@@ -235,7 +235,8 @@ body {
   background: #0D0A17;
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.45);
-  overflow: hidden;
+   padding: 18px;
+  overflow-x: hidden;
   animation: popup 0.25s ease;
 }
 
