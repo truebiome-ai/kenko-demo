@@ -2,7 +2,7 @@
 
 /* Background mockup */
 body {
-  background: url("/innerbuddies-dashboard.png") no-repeat center top;
+  background: url("/public/innerbuddies-dashboard.png") no-repeat center top;
   background-size: contain;
   background-attachment: scroll;
   color: #1A1528;
