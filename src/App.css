@@ -23,21 +23,28 @@ body {
 
 .chat-window {
   width: 100%;
-  max-width: 420px;     /* prevents it from exploding too large */
-  border-radius: 22px;
-  background: #0D0A17; /* Dark biotech purple-black */
+  max-width: 420px;
+  
+  background: #0D0A17; /* matches your design */
   border-radius: 24px;
   padding: 18px 18px 20px;
+
   box-shadow:
     0 0 40px rgba(122, 62, 204, 0.25),
     0 20px 60px rgba(0, 0, 0, 0.7);
+
   border: 1px solid rgba(255, 255, 255, 0.06);
+
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 60vh;
-  overflow-y: auto;
+
+  max-height: 80vh;     /* match the available vertical space */
+  overflow-y: auto;     /* ONLY this scrolls */
+
+  scrollbar-width: thin;
 }
+
 
 /* ---------- HEADER ---------- */
 
@@ -62,7 +69,7 @@ body {
   border-radius: 14px;
   font-size: 0.9rem !important;
   line-height: 1.35 !important;
-  max-width: 70% !important;
+   max-width: 90% !important; 
   width: fit-content;
   margin-top: 4px;
 }
@@ -322,15 +329,21 @@ body {
   transform: translateY(-1px);
 }
 .chat-widget-container {
-  position: relative;
-  width: 380px;
-  max-height: 70vh;
-  border-radius: 22px;
-  overflow: hidden;
-  background: #0d0d0d;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.45);
-  animation: fadeIn 0.25s ease;
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+
+  width: 420px;                /* good size */
+  max-height: 80vh;            /* allows tall content */
+  overflow: visible;           /* IMPORTANT: stop squeezing inner content */
+
+  z-index: 99998;
+
+  background: transparent;     /* keep outer container invisible */
+  border-radius: 20px;
+  animation: popup 0.25s ease;
 }
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px) scale(0.95); }
