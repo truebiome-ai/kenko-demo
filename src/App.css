@@ -5,6 +5,8 @@ body {
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #ffffff; /* keep clean white background */
   color: #1A1528;
+  overflow-y: scroll;
+
 }
 
 /* Center the chatbot on the page */
