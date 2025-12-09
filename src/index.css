@@ -1,11 +1,9 @@
 /* ----- DEMO BACKGROUND (InnerBuddies Dashboard Mock) ----- */
 
 body {
-  background: url('../public/innerbuddies-dashboard.png') no-repeat center top;
-  background-size: 100% auto;       /* fits width perfectly */
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-color: #ffffff;        /* fallback */
+  background: #f4f4f8 url("/innerbuddies-dashboard.png") no-repeat center top;
+  background-size: contain;
+  background-attachment: fixed;
 }
 
 .app {
