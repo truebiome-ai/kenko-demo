@@ -1,7 +1,7 @@
 /* ----- DEMO BACKGROUND (InnerBuddies Dashboard Mock) ----- */
 
 body {
-  background: #f4f4f8 url("/innerbuddies-dashboard.png") no-repeat center top;
+background: url('../public/innerbuddies-dashboard.png') no-repeat center top;
   background-size: contain;
   background-attachment: fixed;
 }
