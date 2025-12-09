@@ -3,37 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { OpenAI } from "openai";
 import "./App.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { getBrandConfig } from "./brands";
 import Chatbot from "./components/Chatbot.jsx";
-
-// Load brand config
-const brand = getBrandConfig("cerathrive");
-
-// ------------------------------
-//  🔍 FUZZY MATCHING UTILITIES
-// ------------------------------
-const isSimilar = (input, keyword) => {
-  return (
-    input.toLowerCase().includes(keyword.toLowerCase()) ||
-    keyword.toLowerCase().includes(input.toLowerCase())
-  );
-};
-
-const getProductRecommendations = (userSymptoms) => {
-  return brand.products.filter((product) =>
-    product.keywords.some((keyword) =>
-      userSymptoms.some((symptom) => isSimilar(symptom, keyword))
-    )
-  );
-};
-
-const formatProductLinks = (products) =>
-  products
-    .map(
-      (product) =>
-        `- **[${product.name}](${product.link})** – ${product.description}`
-    )
-    .join("\n");
 
 // OpenAI client
 const openai = new OpenAI({
@@ -45,19 +15,21 @@ const openai = new OpenAI({
 //            APP COMPONENT
 // ------------------------------
 function App() {
-  // 🔐 PASSWORD PROTECTION (NEW)
+  // 🔐 PASSWORD PROTECTION
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
-  const correctPassword = "CERA2025!";
+  const correctPassword = "IB2025!";
 
   // Chat states
   const [messages, setMessages] = useState([
-    { role: "assistant", content: brand.greeting },
+    {
+      role: "assistant",
+      content:
+        "Hi! I’m the InnerBuddies AI Guide. I can help explain microbiome test results, clarify your dashboard insights, and offer general food & lifestyle suggestions. What would you like to explore?",
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [followUpCount, setFollowUpCount] = useState(0);
 
   const chatWindowRef = useRef(null);
 
@@ -72,6 +44,59 @@ function App() {
   }, [messages]);
 
   // ------------------------------
+  //  SYSTEM PROMPT (InnerBuddies)
+  // ------------------------------
+  const systemPrompt = `
+You are the InnerBuddies AI Guide — a friendly, science-based assistant that explains gut microbiome test results in clear, simple, non-diagnostic language.
+
+Your purpose is to:
+- Explain the user’s InnerBuddies test results in an easy, digestible way.
+- Help users understand what their microbiome scores *mean* without giving medical advice.
+- Offer safe, educational suggestions related to food, lifestyle, and general supplement categories.
+- Tailor your explanations to the user’s provided mock test data.
+- Provide reassurance and clarity — never fear-based or medical.
+
+STRICT RULES:
+- Do NOT diagnose, treat, or name diseases.
+- Do NOT make medical claims or imply an expected outcome.
+- Do NOT give medical instructions (dosages, protocols, etc.)
+- You may discuss probiotics, prebiotics, foods, fiber, polyphenols, and lifestyle in general educational terms.
+- Always frame suggestions as “may support”, “is often associated with”, “can be helpful for some people”, etc.
+
+TONE:
+Warm, simple, encouraging, non-judgmental. Avoid jargon unless explaining it.
+
+MOCK USER DATA FOR DEMO:
+{
+  "bacteriaScore": "good",
+  "diversity": "high",
+  "ratio": "high",
+  "functions": {
+    "antioxidantCapacity": 0,
+    "detoxification": 5,
+    "aminoAcids": 37
+  },
+  "foodToIncrease": ["rocket", "cinnamon", "chilli", "melon"],
+  "foodToDecrease": ["cheesecake", "cake", "muffin"],
+  "probiotics": [
+    {"strain": "Lactobacillus casei Shirota", "benefit": "stress & mood support"},
+    {"strain": "Lactobacillus helveticus Rosell-0052", "benefit": "mood & resilience support"},
+    {"strain": "Lactobacillus rhamnosus GG", "benefit": "general GI support"},
+    {"strain": "Saccharomyces boulardii", "benefit": "gut balance & microbial diversity"},
+    {"strain": "Escherichia coli Nissle 1917", "benefit": "gut barrier support"}
+  ]
+}
+
+EXAMPLES OF GREAT RESPONSES:
+- “Your diversity score is high — this generally means your gut contains many beneficial types of microbes.”
+- “Your Firmicutes-to-Bacteroidetes ratio is on the higher side. This often appears in people who eat more sugar or protein. Increasing colorful vegetables and fiber may support balance.”
+- “Your antioxidant capacity score is low. This doesn’t suggest anything medical, but adding polyphenol-rich foods like berries, spinach, or green tea may be helpful.”
+
+END EVERY RESPONSE WITH:
+“Would you like help understanding another part of your results?”
+`;
+
+  // ------------------------------
   //         SEND MESSAGE
   // ------------------------------
   const sendMessage = async () => {
@@ -82,60 +107,26 @@ function App() {
     setInput("");
     setLoading(true);
 
-    const productList = brand.products
-      .map(
-        (p) =>
-          `- **${p.name}** – ${p.description}. [Buy ${p.name}](${p.link})`
-      )
-      .join("\n");
-
-    const systemPrompt = `
-You are the CeraThrive AI — warm, confident, functional-medicine informed.
-CeraThrive sells ONE product: **The CERA System**.
-
-RESPONSE RULES:
-- Max 3–5 short sentences.
-- Mention “The CERA System” ONLY once per answer, then say “the device”.
-- Never write long paragraphs.
-- Never say “might help.” Instead use:
-  “supports”, “is designed to”, “is helpful for”, “is known to”, “can be a valuable tool”.
-- Respond step-by-step, conversationally.
-
-FOLLOW-UP BEHAVIOR:
-1) First user message → acknowledge + ask ONE clarifying question.
-2) After user answers → give short explanation + short device connection + ask:
-   “Would you like more information?”
-3) If yes → explain how device supports THEIR symptoms → ask:
-   “Would you like to know your recommended routine?”
-4) If yes → give simple routine (10–20 minutes, placement, frequency).
-
-STYLE:
-- Calm, confident, simple, supportive.
-- No medical diagnosing.
-`;
-
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-4o",
         messages: [
           { role: "system", content: systemPrompt },
           ...newMessages,
         ],
-        temperature: 0.7,
+        temperature: 0.65,
       });
 
       const botMessage = response.choices[0].message.content;
 
       setMessages([...newMessages, { role: "assistant", content: botMessage }]);
-      setFollowUpCount((x) => x + 1);
     } catch (err) {
       console.error("OpenAI Error:", err);
-
       setMessages([
         ...newMessages,
         {
           role: "assistant",
-          content: "Oops — I hit a snag. Could you try again?",
+          content: "Hmm — something went wrong. Could you try that again?",
         },
       ]);
     }
@@ -148,7 +139,7 @@ STYLE:
   };
 
   // ------------------------------
-  // 🔐 PASSWORD SCREEN RENDER (NEW)
+  // 🔐 PASSWORD SCREEN RENDER
   // ------------------------------
   if (!authorized) {
     return (
@@ -167,22 +158,13 @@ STYLE:
             padding: "40px",
             borderRadius: "16px",
             width: "320px",
-            boxShadow: "0 0 30px rgba(255, 90, 120, 0.3)",
             textAlign: "center",
           }}
         >
-          <h2
-            style={{
-              color: "white",
-              marginBottom: "10px",
-              fontWeight: "600",
-              fontSize: "1.4rem",
-            }}
-          >
+          <h2 style={{ color: "white", marginBottom: "10px" }}>
             Enter Password
           </h2>
-
-          <p style={{ color: "#bbb", fontSize: "0.9rem", marginBottom: "20px" }}>
+          <p style={{ color: "#bbb", marginBottom: "20px" }}>
             This demo is private and requires a password to view.
           </p>
 
@@ -195,26 +177,23 @@ STYLE:
               width: "100%",
               padding: "12px",
               borderRadius: "10px",
-              border: "1px solid #333",
+              marginBottom: "20px",
               background: "#222",
               color: "white",
-              marginBottom: "20px",
+              border: "1px solid #333",
             }}
           />
 
           <button
             onClick={() => {
-              if (password === correctPassword) {
-                setAuthorized(true);
-              } else {
-                alert("Incorrect password");
-              }
+              if (password === correctPassword) setAuthorized(true);
+              else alert("Incorrect password");
             }}
             style={{
               width: "100%",
               padding: "12px",
               borderRadius: "10px",
-              background: "linear-gradient(90deg, #ff4f9a, #ff9a3c)",
+              background: "linear-gradient(90deg, #8E2DE2, #4A00E0)",
               color: "white",
               fontWeight: "bold",
               cursor: "pointer",
@@ -233,7 +212,6 @@ STYLE:
   // ------------------------------
   return (
     <div className="app">
-
       <AnimatePresence>
         <motion.div
           className="chat-window"
@@ -242,7 +220,7 @@ STYLE:
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 60, damping: 10 }}
         >
-          <div className="chat-header">CeraThrive AI Advisor</div>
+          <div className="chat-header">InnerBuddies AI Guide</div>
 
           <div className="messages-container">
             {messages.map((msg, i) => (
@@ -272,7 +250,7 @@ STYLE:
           <div className="input-area">
             <input
               type="text"
-              placeholder="I need help with..."
+              placeholder="Ask about your microbiome results..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}

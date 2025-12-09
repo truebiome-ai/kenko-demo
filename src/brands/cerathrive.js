@@ -1,5 +1,5 @@
-const cerathrive = {
-  name: "CeraThrive",
+const innerbuddies = {
+  name: "InnerBuddies",
   description:
     "A personalized AI guide to help you understand how The CERA System can support your symptoms and wellness goals.",
   greeting:
