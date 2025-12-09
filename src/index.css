@@ -1,18 +1,13 @@
 /* ----- GLOBAL BACKGROUND (InnerBuddies Dashboard Mock) ----- */
 
+/* Background mockup */
 body {
-  margin: 0;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-
-  /* Background image served from /public folder */
-  background: #ffffff url("/innerbuddies-dashboard.png") no-repeat center top;
+  background: url("/innerbuddies-dashboard.png") no-repeat center top;
   background-size: contain;
-  background-attachment: fixed;
-
+  background-attachment: scroll;
   color: #1A1528;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 code {
