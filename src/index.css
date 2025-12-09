@@ -2,13 +2,13 @@
 
 /* Background mockup */
 body {
-  background: url("/public/innerbuddies-dashboard.png") no-repeat center top;
-  background-size: contain;
-  background-attachment: scroll;
-  color: #1A1528;
-  margin: 0;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-image: url("/innerbuddies-dashboard.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  background-color: #000; /* fallback */
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
