@@ -6,6 +6,8 @@ body {
   background: #ffffff; /* keep clean white background */
   color: #1A1528;
   overflow-y: scroll;
+  min-height: 100%;
+  height:auto;
 
 }
 
