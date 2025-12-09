@@ -24,26 +24,22 @@ body {
 .chat-window {
   width: 100%;
   max-width: 420px;
-  
-  background: #0D0A17; /* matches your design */
+  background: #0D0A17;
   border-radius: 24px;
-  padding: 18px 18px 20px;
-
+  padding: 18px;           /* <-- FIXED */
   box-shadow:
     0 0 40px rgba(122, 62, 204, 0.25),
     0 20px 60px rgba(0, 0, 0, 0.7);
-
-  border: 1px solid rgba(255, 255, 255, 0.06);
-
+  border: 1px solid rgba(255,255,255,0.06);
   display: flex;
   flex-direction: column;
   gap: 8px;
-
-  box-sizing: border-box;
-  overflow-x: hidden; /* prevents accidental horizontal scrolling */
-  padding-right: 16px; /* adds safe inner space */  
+  box-sizing: border-box; 
+  overflow-y: auto;
+  overflow-x: hidden;      /* <-- PREVENTS CLIPPING */
   scrollbar-width: thin;
 }
+
 
 
 /* ---------- HEADER ---------- */
@@ -96,11 +92,12 @@ body {
 /* ---------- INPUT AREA ---------- */
 
 .input-area {
-  width: 460px;
+  width: 100%;
   display: flex;
   gap: 10px;
-  margin-top: 14px;
+  box-sizing: border-box; /* <--- ESSENTIAL */
 }
+
 
 /* Text input */
 .input-area input[type="text"] {
@@ -235,8 +232,7 @@ body {
   background: #0D0A17;
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.45);
-   padding: 18px;
-  overflow-x: hidden;
+  overflow: hidden;
   animation: popup 0.25s ease;
 }
 
@@ -333,6 +329,7 @@ body {
   background: rgba(244, 210, 74, 0.28);   /* brighter on hover */
   transform: translateY(-1px);
 }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
