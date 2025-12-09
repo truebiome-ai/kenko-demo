@@ -22,7 +22,9 @@ body {
 /* ---------- CHAT WINDOW CARD ---------- */
 
 .chat-window {
-  width: 460px;
+  width: 100%;
+  max-width: 420px;     /* prevents it from exploding too large */
+  border-radius: 22px;
   background: #0D0A17; /* Dark biotech purple-black */
   border-radius: 24px;
   padding: 18px 18px 20px;
@@ -217,8 +219,8 @@ body {
   position: fixed;
   bottom: 100px;
   right: 24px;
-  width: 380px;
-  max-height: 70vh;
+   width: 420px;          /* larger & more readable */
+  max-height: 80vh;
   z-index: 99998;
 
   background: #0D0A17;
@@ -360,17 +362,20 @@ body {
   100% { transform: scale(1); }
 }
 .tooltip-once {
-  position: absolute;
-  bottom: 75px;
-  right: 0;
-  padding: 10px 14px;
+  position: fixed;
+  bottom: 110px;     /* sits above the launcher */
+  right: 90px;       /* moves it left so it looks natural */
+  background: #4b2e83; /* InnerBuddies purple */
+  color: white;
+  padding: 12px 18px;
   border-radius: 12px;
-  background: #5C3B8F;
-  color: #fff;
   font-size: 0.85rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-  animation: fadeSlideUp 0.6s ease forwards;
+  max-width: 220px;   /* allow horizontal text */
+  white-space: normal; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  animation: fadeInUp 0.5s ease-out;
 }
+
 
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(8px); }
