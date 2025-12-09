@@ -1,25 +1,26 @@
-/* ----- DEMO BACKGROUND (InnerBuddies Dashboard Mock) ----- */
-
-body {
-background: url("/innerbuddies-dashboard.png") no-repeat center top;
-  background-size: contain;
-  background-attachment: fixed;
-}
-
-.app {
-  background: transparent !important;
-}
+/* ----- GLOBAL BACKGROUND (InnerBuddies Dashboard Mock) ----- */
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Background image served from /public folder */
+  background: #ffffff url("/innerbuddies-dashboard.png") no-repeat center top;
+  background-size: contain;
+  background-attachment: fixed;
+
+  color: #1A1528;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* Make sure the React root doesn't override the background */
+.app {
+  background: transparent !important;
 }
