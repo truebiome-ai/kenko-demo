@@ -236,28 +236,25 @@ body {
 /* ---------- TRUBIOME FOOTER ---------- */
 
 .trubiome-footer {
-  margin-top: 20px;
-  font-size: 0.8rem;
-  color: #7A3ECC; /* InnerBuddies deep purple */
-  opacity: 0.85;
+  margin-top: 12px;
+  padding-top: 6px;
   text-align: center;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.75rem;
+  color: #8e5be8; /* InnerBuddies soft purple */
+  opacity: 0.8;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .trubiome-footer span {
-  background: linear-gradient(90deg, #7A3ECC, #F4C542); /* TruBiome purple → gold */
+  background: linear-gradient(90deg, #7A3ECC, #F4C542);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
   letter-spacing: 0.4px;
-  font-family: "Inter", sans-serif;
 }
 
 .trubiome-footer:hover {
   opacity: 1;
-  transition: opacity 0.2s ease;
   cursor: default;
 }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');

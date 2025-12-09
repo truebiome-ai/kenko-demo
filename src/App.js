@@ -258,11 +258,11 @@ END EVERY RESPONSE WITH:
             />
             <button onClick={sendMessage}>Send</button>
           </div>
-        </motion.div>
-      </AnimatePresence>
-      <div className="trubiome-footer">
+          <div className="trubiome-footer">
   Powered by <span>TruBiome.AI</span>
 </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
