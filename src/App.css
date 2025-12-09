@@ -233,3 +233,42 @@ body {
     transform: translateY(0px) scale(1);
   }
 }
+/* ---------- TRUBIOME FOOTER ---------- */
+
+.trubiome-footer {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #7A3ECC; /* InnerBuddies deep purple */
+  opacity: 0.85;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.trubiome-footer span {
+  background: linear-gradient(90deg, #7A3ECC, #F4C542); /* TruBiome purple → gold */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  font-family: "Inter", sans-serif;
+}
+
+.trubiome-footer:hover {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  cursor: default;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.trubiome-footer {
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 0.85; transform: translateY(0); }
+}
+
