@@ -237,10 +237,7 @@ END EVERY RESPONSE WITH:
                 />
               </motion.div>
             ))}
-            <div className="trubiome-footer">
-  Powered by <span>TruBiome.AI</span>
-</div>
-
+            
 
             {loading && (
               <div className="message assistant typing-dots">
@@ -263,6 +260,9 @@ END EVERY RESPONSE WITH:
           </div>
         </motion.div>
       </AnimatePresence>
+      <div className="trubiome-footer">
+  Powered by <span>TruBiome.AI</span>
+</div>
     </div>
   );
 }
