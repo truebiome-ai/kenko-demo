@@ -284,7 +284,7 @@ if (!authorized) {
 
 
   // ------------------------------
-  //          MAIN UI
+  //          MAIN UI   - I can do all things through Christ Jesus who gives me strength
   // ------------------------------
   return (
     <div className="app">
