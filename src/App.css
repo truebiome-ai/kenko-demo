@@ -361,3 +361,15 @@ body {
 .chat-widget-container {
   display: none !important;
 }
+/* Centered demo container — overrides old widget layout */
+.demo-chat-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  background: transparent;
+  border-radius: 22px;
+  box-shadow: none;
+  overflow: visible;
+  display: block;
+}
+

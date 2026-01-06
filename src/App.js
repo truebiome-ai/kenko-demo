@@ -249,7 +249,7 @@ Opening message (only once):
             </div>
           </div>
 
-          <div className="chat-widget-container demo-chat-container">
+          <div className="demo-chat-container">
             <AnimatePresence>
               <motion.div
                 className="chat-window demo-chat-window"
