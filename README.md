@@ -74,3 +74,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # trubiome-universal-demo
 # trubiome-demo-cerathrive
 # trubiome-demo-cerathrive
+# kenko-demo
