@@ -372,4 +372,62 @@ body {
   overflow: visible;
   display: block;
 }
+/* ===== KENKO DEMO: FORCE PROPER CHAT LAYOUT ===== */
+
+/* This is the big card */
+.demo-chat-window {
+  height: min(76vh, 820px) !important;
+  background: radial-gradient(900px 500px at 20% 0%, rgba(31,138,87,0.10), transparent 60%),
+              radial-gradient(800px 480px at 80% 0%, rgba(214,176,76,0.12), transparent 55%),
+              #0b0b14 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
+
+/* Make the inner card a 3-row grid */
+.chat-window {
+  height: 100% !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  display: grid !important;
+  grid-template-rows: auto 1fr auto auto !important;
+  gap: 10px !important;
+  padding: 18px !important;
+}
+
+/* Messages MUST take the remaining space and scroll */
+.messages-container {
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding-right: 6px !important;
+}
+
+/* Suggestions sit above input, not floating */
+.suggestions {
+  margin: 0 !important;
+  padding-top: 2px !important;
+}
+
+/* Input bar stays pinned */
+.input-area {
+  margin-top: 0 !important;
+}
+
+/* Footer pinned at bottom */
+.trubiome-footer {
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+}
+
+/* Make buttons/input more “Kenko” */
+.input-area button {
+  background: linear-gradient(120deg, #1f8a57, #d6b04c) !important;
+  color: #0b0b14 !important;
+  font-weight: 800 !important;
+}
+
+.chat-header {
+  background: linear-gradient(120deg, #1f8a57, #d6b04c) !important;
+}
 
