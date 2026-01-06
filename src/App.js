@@ -4,6 +4,8 @@ import { OpenAI } from "openai";
 import "./App.css";
 import { motion, AnimatePresence } from "framer-motion";
 import mockData from "./mockData.json";
+import LabUpload from "./components/LabUpload.jsx";
+
 
 // OpenAI client
 const openai = new OpenAI({
@@ -248,6 +250,22 @@ Opening message (only once):
               Decision-support chat for symptom patterns, labs, and next steps.
             </div>
           </div>
+<LabUpload
+  onSummaryReady={(summary) => {
+    // Drop the summary into the chat as an assistant message
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        content:
+          "Lab Summary (demo):\n\n" +
+          summary +
+          "\n\nIf you want, tell me the main symptom focus + timeline and I’ll suggest next steps.",
+      },
+    ]);
+    setShowSuggestions(false);
+  }}
+/>
 
           <div className="demo-chat-container">
             <AnimatePresence>
