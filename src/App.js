@@ -11,13 +11,10 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-// ------------------------------
-//            APP COMPONENT
-// ------------------------------
 function App() {
   // ✅ DEMO SETTINGS
   const DEMO_MODE_CENTERED = true; // centered, large, always visible
-  const PASSWORD_ENABLED = false; // remove password screen
+  const PASSWORD_ENABLED = false; // demo: off
 
   // If you ever re-enable password:
   const [authorized, setAuthorized] = useState(false);
@@ -94,14 +91,15 @@ Opening message (only once):
   };
 
   // ------------------------------
-  //  LAB UPLOAD HANDLER (server-side endpoint)
+  //  LAB UPLOAD HANDLER (calls /api/labs/summarize)
   // ------------------------------
   const handleLabUpload = async () => {
-    if (!labFile) return;
+    if (!labFile || labBusy) return;
+
     setLabBusy(true);
     setShowSuggestions(false);
 
-    // Drop a "system-ish" message into the chat so it feels native
+    // Chat-native status message
     setMessages((prev) => [
       ...prev,
       {
@@ -112,6 +110,7 @@ Opening message (only once):
     ]);
 
     try {
+      // ✅ formData defined in-scope
       const formData = new FormData();
       formData.append("labFile", labFile);
 
@@ -122,7 +121,7 @@ Opening message (only once):
 
       if (!res.ok) {
         const msg = await res.text();
-        throw new Error(msg || "Lab upload failed");
+        throw new Error(msg || `HTTP ${res.status}`);
       }
 
       const data = await res.json();
@@ -141,21 +140,12 @@ Opening message (only once):
     } catch (err) {
       console.error("Lab upload error:", err);
       setMessages((prev) => [
-  ...prev,
-  {
-    role: "assistant",
-    content: `Lab analysis failed: ${err?.message || "Unknown error"}`,
-  },
-]);
-const res = await fetch("/api/labs/summarize", { method: "POST", body: formData });
-
-if (!res.ok) {
-  const msg = await res.text();
-  throw new Error(msg || `HTTP ${res.status}`);
-}
-
-const data = await res.json();
-
+        ...prev,
+        {
+          role: "assistant",
+          content: `Lab analysis failed: ${err?.message || "Unknown error"}`,
+        },
+      ]);
     } finally {
       setLabBusy(false);
       setLabFile(null);
@@ -166,7 +156,7 @@ const data = await res.json();
   //  SEND MESSAGE
   // ------------------------------
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
     const newMessages = [...messages, { role: "user", content: input }];
     setMessages(newMessages);
@@ -179,22 +169,18 @@ const data = await res.json();
         model: "gpt-4o",
         messages: [
           { role: "system", content: systemPrompt },
-
-          // Demo data (optional). Remove this if not needed for Kenko practitioner demo.
           {
             role: "system",
             content:
               "Here is the user's demo data (for context only): " +
               JSON.stringify(mockData),
           },
-
           ...newMessages,
         ],
         temperature: 0.65,
       });
 
       const botMessage = response.choices?.[0]?.message?.content || "";
-
       setMessages([...newMessages, { role: "assistant", content: botMessage }]);
     } catch (err) {
       console.error("OpenAI Error:", err);
@@ -206,9 +192,9 @@ const data = await res.json();
             "Something went wrong on my end. Please try again (or refresh the page).",
         },
       ]);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleKeyDown = (e) => {
@@ -237,7 +223,7 @@ const data = await res.json();
             borderRadius: "20px",
             width: "340px",
             textAlign: "center",
-            boxShadow: "0 0 60px rgba(92, 59, 143, 0.45)",
+            boxShadow: "0 0 60px rgba(31, 138, 87, 0.25)",
           }}
         >
           <img
@@ -285,11 +271,8 @@ const data = await res.json();
 
           <button
             onClick={() => {
-              if (password === correctPassword) {
-                setAuthorized(true);
-              } else {
-                alert("Incorrect password");
-              }
+              if (password === correctPassword) setAuthorized(true);
+              else alert("Incorrect password");
             }}
             style={{
               width: "100%",
@@ -336,7 +319,7 @@ const data = await res.json();
                 <div className="chat-header">Kenko Practitioner AI</div>
 
                 <div className="messages-container">
-                  {/* Inline lab upload action INSIDE the chat */}
+                  {/* Inline lab upload INSIDE chat */}
                   <motion.div
                     className="message assistant lab-upload-message"
                     initial={{ opacity: 0, y: 8 }}
@@ -376,6 +359,7 @@ const data = await res.json();
                     </div>
                   </motion.div>
 
+                  {/* Conversation */}
                   {messages.map((msg, i) => (
                     <motion.div
                       key={i}
@@ -385,7 +369,7 @@ const data = await res.json();
                     >
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: msg.content.replace(/\n/g, "<br/>"),
+                          __html: (msg.content || "").replace(/\n/g, "<br/>"),
                         }}
                       />
                     </motion.div>
@@ -459,20 +443,11 @@ const data = await res.json();
     );
   }
 
-  // ------------------------------
-  // FALLBACK (if you ever switch off centered mode)
-  // ------------------------------
+  // Fallback
   return (
     <div className="app">
-      <div
-        style={{
-          padding: 24,
-          color: "#111",
-          fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-        }}
-      >
-        Centered demo mode is off. Turn <b>DEMO_MODE_CENTERED</b> on to show the
-        Kenko demo UI.
+      <div style={{ padding: 24 }}>
+        Centered demo mode is off. Turn <b>DEMO_MODE_CENTERED</b> on.
       </div>
     </div>
   );
