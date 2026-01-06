@@ -11,12 +11,15 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
+// ------------------------------
+//            APP COMPONENT
+// ------------------------------
 function App() {
   // ✅ DEMO SETTINGS
-  const DEMO_MODE_CENTERED = true;
-  const PASSWORD_ENABLED = false;
+  const DEMO_MODE_CENTERED = true; // centered, large, always visible
+  const PASSWORD_ENABLED = false; // remove password screen
 
-  // Password (kept but disabled)
+  // (Kept for compatibility if you ever re-enable password)
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
   const correctPassword = "KENKO2026!";
@@ -26,19 +29,16 @@ function App() {
     {
       role: "assistant",
       content:
-        "Hi! I’m the Kenko Practitioner AI. I can help you think through symptoms, labs, and next-step protocols. What would you like to explore?",
+        "Hi! I’m the Kenko Practitioner AI. I can help you think through symptoms, labs (as text), and next-step protocol categories. What would you like to explore?",
     },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Lab upload (DEMO UI only)
-  const [labFile, setLabFile] = useState(null);
-  const [labBusy, setLabBusy] = useState(false);
-
   const chatWindowRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
 
+  // Auto-scroll
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTo({
@@ -46,73 +46,56 @@ function App() {
         behavior: "smooth",
       });
     }
-  }, [messages, loading, labBusy]);
+  }, [messages, loading]);
 
   // ------------------------------
   //  SYSTEM PROMPT (Kenko Practitioner)
   // ------------------------------
   const systemPrompt = `
-You are the *Kenko Practitioner AI*, a clinician-facing decision-support assistant.
+You are the *Kenko Practitioner AI*, a clinician-facing decision-support assistant powered by TruBiome.AI.
 
-IMPORTANT SAFETY / DISCLAIMER:
-- You are NOT a medical provider.
+IMPORTANT DISCLAIMER:
+- Educational decision-support only. Not medical advice.
 - You do not diagnose, treat, cure, or prevent disease.
-- This tool is educational and decision-support only.
-- The licensed practitioner remains fully responsible for clinical decisions and patient care.
+- The licensed practitioner remains solely responsible for patient care and clinical decisions.
 
 Your role:
 • Help practitioners think through symptom patterns, potential contributors, and next-step options.
-• Suggest reasonable lab categories and common functional-medicine style considerations.
+• Suggest reasonable lab categories and functional-medicine style considerations.
 • Use cautious language: “may”, “can be associated with”, “could consider”, “discuss with a licensed clinician”.
 • Keep responses concise: 4–8 short bullet points by default.
+
+Functional/integrative lens:
+- Values may be “in range” but still suboptimal. You may flag “suboptimal” trends.
+- Do NOT invent lab reference ranges. If not provided, say “range not provided.”
+- If labs are pasted, summarize patterns and give next-step considerations.
 
 Rules:
 1) Ask ONE clarifying question when needed (only one).
 2) If user asks “what should I do first?” → give a prioritized 3-step plan.
-3) Supplements: categories only (no dosing, no medical claims).
-4) Labs: suggest categories and what they can help clarify; do not state diagnoses.
+3) Supplements: categories only (no dosing, no brand names, no treatment claims).
+4) Labs: suggest categories and what they help clarify; do not state diagnoses.
 5) If input is vague, ask for missing detail (duration, severity, triggers, meds, key history).
 
 Tone:
 • Professional, clear, practitioner-friendly.
 • Confident but cautious.
+• No fluff.
 `;
 
+  // ------------------------------
+  //  QUICK SUGGESTION HANDLER
+  // ------------------------------
   const handleSuggestion = (text) => {
     setShowSuggestions(false);
     setInput(text);
   };
 
   // ------------------------------
-  //  LAB UPLOAD HANDLER (DEMO ONLY — NO BACKEND)
-  // ------------------------------
-  const handleLabUpload = async () => {
-    if (!labFile) return;
-
-    setLabBusy(true);
-    setShowSuggestions(false);
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content:
-          "Got it — lab upload received (demo). This demo build does not parse PDFs yet.\n\nFor now, paste key lab values as text (e.g., CBC/CMP, iron studies, thyroid markers, inflammatory markers) and I’ll summarize patterns + next-step considerations.",
-      },
-    ]);
-
-    // Simulate short wait so it feels interactive
-    setTimeout(() => {
-      setLabBusy(false);
-      setLabFile(null);
-    }, 600);
-  };
-
-  // ------------------------------
   //  SEND MESSAGE
   // ------------------------------
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
     const newMessages = [...messages, { role: "user", content: input }];
     setMessages(newMessages);
@@ -135,7 +118,7 @@ Tone:
         temperature: 0.65,
       });
 
-      const botMessage = response?.choices?.[0]?.message?.content || "";
+      const botMessage = response.choices?.[0]?.message?.content || "";
       setMessages([...newMessages, { role: "assistant", content: botMessage }]);
     } catch (err) {
       console.error("OpenAI Error:", err);
@@ -157,13 +140,86 @@ Tone:
   };
 
   // ------------------------------
-  // 🔐 PASSWORD SCREEN (DISABLED)
+  // 🔐 PASSWORD SCREEN (DISABLED BY DEFAULT)
   // ------------------------------
   if (PASSWORD_ENABLED && !authorized) {
     return (
-      <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
-        <div style={{ padding: 24, borderRadius: 16, background: "#111", color: "#fff" }}>
-          Password mode is enabled.
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#000",
+          padding: "24px",
+        }}
+      >
+        <div
+          style={{
+            background: "#111",
+            padding: "40px",
+            borderRadius: "20px",
+            width: "340px",
+            textAlign: "center",
+            boxShadow: "0 0 60px rgba(31, 138, 87, 0.25)",
+          }}
+        >
+          <img
+            src="/kenko-logo.png"
+            alt="Kenko"
+            style={{ width: "180px", marginBottom: "18px", opacity: 0.98 }}
+          />
+
+          <h2
+            style={{
+              color: "white",
+              marginBottom: "10px",
+              fontWeight: "600",
+              fontSize: "1.4rem",
+            }}
+          >
+            Enter Password
+          </h2>
+
+          <p style={{ color: "#bbb", fontSize: "0.9rem", marginBottom: "20px" }}>
+            This demo is private and requires a password to view.
+          </p>
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "12px",
+              borderRadius: "10px",
+              border: "1px solid #333",
+              background: "#222",
+              color: "white",
+              marginBottom: "20px",
+            }}
+          />
+
+          <button
+            onClick={() => {
+              if (password === correctPassword) setAuthorized(true);
+              else alert("Incorrect password");
+            }}
+            style={{
+              width: "100%",
+              padding: "12px",
+              borderRadius: "10px",
+              background: "linear-gradient(120deg, #1f8a57, #d6b04c)",
+              color: "white",
+              fontWeight: "bold",
+              cursor: "pointer",
+              border: "none",
+              marginTop: "6px",
+            }}
+          >
+            Unlock Demo
+          </button>
         </div>
       </div>
     );
@@ -182,10 +238,10 @@ Tone:
               Decision-support chat for symptom patterns, labs, and next steps.
             </div>
 
-            {/* Cover-your-ass disclaimer (visible) */}
+            {/* Visible disclaimer banner */}
             <div className="demo-disclaimer">
-              Decision-support only. Not medical advice. No diagnosis or treatment.
-              Licensed practitioner remains responsible for patient care.
+              <b>Decision-support only.</b> Not medical advice. No diagnosis or
+              treatment. Licensed practitioner remains responsible for patient care.
             </div>
           </div>
 
@@ -201,43 +257,6 @@ Tone:
                 <div className="chat-header">Kenko Practitioner AI</div>
 
                 <div className="messages-container">
-                  {/* Inline lab upload INSIDE the chat */}
-                  <motion.div
-                    className="message assistant lab-upload-message"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <div className="lab-upload-inline">
-                      <div className="lab-upload-inline-title">
-                        Optional: Upload labs (demo)
-                      </div>
-                      <div className="lab-upload-inline-subtitle">
-                        For privacy, upload de-identified files only. This demo build
-                        does not parse PDFs yet — paste key values as text for analysis.
-                      </div>
-
-                      <div className="lab-upload-inline-row">
-                        <input
-                          type="file"
-                          accept=".pdf,.txt"
-                          onChange={(e) => setLabFile(e.target.files?.[0] || null)}
-                        />
-                        <button
-                          disabled={!labFile || labBusy}
-                          onClick={handleLabUpload}
-                        >
-                          {labBusy ? "Analyzing…" : "Analyze labs"}
-                        </button>
-                      </div>
-
-                      {labFile && (
-                        <div className="lab-upload-inline-file">
-                          Selected: <b>{labFile.name}</b>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-
                   {messages.map((msg, i) => (
                     <motion.div
                       key={i}
@@ -247,7 +266,7 @@ Tone:
                     >
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: msg.content.replace(/\n/g, "<br/>"),
+                          __html: (msg.content || "").replace(/\n/g, "<br/>"),
                         }}
                       />
                     </motion.div>
@@ -262,6 +281,7 @@ Tone:
                   )}
                 </div>
 
+                {/* Suggestions */}
                 {showSuggestions && (
                   <div className="suggestions">
                     <button
@@ -276,11 +296,11 @@ Tone:
                     <button
                       onClick={() =>
                         handleSuggestion(
-                          "What labs would you consider next, and what would each help clarify?"
+                          "Here are labs as text. Please summarize patterns (including suboptimal trends) and suggest next-step lab categories."
                         )
                       }
                     >
-                      Suggested labs
+                      Lab review (paste text)
                     </button>
                     <button
                       onClick={() =>
@@ -294,6 +314,7 @@ Tone:
                   </div>
                 )}
 
+                {/* Input */}
                 <div className="input-area">
                   <input
                     type="text"
@@ -307,6 +328,7 @@ Tone:
                   </button>
                 </div>
 
+                {/* Footer */}
                 <div className="trubiome-footer">
                   Powered by <span>TruBiome.AI</span>
                 </div>
@@ -318,7 +340,14 @@ Tone:
     );
   }
 
-  return <div className="app" />;
+  // Fallback
+  return (
+    <div className="app">
+      <div style={{ padding: 24 }}>
+        Centered demo mode is off. Turn <b>DEMO_MODE_CENTERED</b> on.
+      </div>
+    </div>
+  );
 }
 
 export default App;
