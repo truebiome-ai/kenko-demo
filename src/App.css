@@ -499,3 +499,13 @@ body {
   font-size: 0.8rem;
   color: rgba(15,23,42,0.72);
 }
+.practitioner-disclaimer {
+  margin: 8px 12px 10px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #4b5b52;
+  background: rgba(31, 138, 87, 0.08); /* Kenko green tint */
+  border-left: 3px solid #1f8a57;
+  border-radius: 8px;
+}
