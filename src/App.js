@@ -234,9 +234,7 @@ Tone:
         <div className="demo-chat-card">
           <div className="demo-chat-header">
             <div className="demo-chat-title">Kenko Practitioner AI</div>
-            <div className="demo-chat-subtitle">
-              Decision-support chat for symptom patterns, labs, and next steps.
-            </div>
+           
 
             {/* Visible disclaimer banner */}
             <div className="demo-disclaimer">
