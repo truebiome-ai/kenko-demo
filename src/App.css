@@ -431,3 +431,208 @@ body {
   background: linear-gradient(120deg, #1f8a57, #d6b04c) !important;
 }
 
+/* ==============================
+   KENKO PRACTITIONER DEMO (LIGHT)
+   Big centered demo like your universal page
+   ============================== */
+
+:root {
+  --kenko-green: #1f8a57;
+  --kenko-gold: #d6b04c;
+  --kenko-ink: #0f172a;
+  --kenko-muted: rgba(15, 23, 42, 0.70);
+  --kenko-border: rgba(15, 23, 42, 0.10);
+}
+
+/* Whole page gradient background (white with Kenko tint) */
+.demo-chat-shell {
+  min-height: 100vh !important;
+  padding: 48px 18px !important;
+  background:
+    radial-gradient(900px 520px at 20% 10%, rgba(31, 138, 87, 0.16), transparent 55%),
+    radial-gradient(900px 520px at 80% 15%, rgba(214, 176, 76, 0.18), transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, #fbfbfd 60%, #ffffff 100%) !important;
+}
+
+/* Make the demo container larger like your universal demo */
+.demo-chat-card {
+  width: min(1180px, 96vw) !important;
+}
+
+/* Title area */
+.demo-chat-header {
+  text-align: center !important;
+  margin-bottom: 18px !important;
+}
+
+.demo-chat-title {
+  font-size: 34px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--kenko-ink) !important;
+}
+
+.demo-chat-subtitle {
+  margin-top: 8px !important;
+  font-size: 15px !important;
+  color: var(--kenko-muted) !important;
+  opacity: 1 !important;
+}
+
+/* The main chat card becomes LIGHT + big */
+.demo-chat-window {
+  height: min(78vh, 860px) !important;
+  border-radius: 26px !important;
+  overflow: hidden !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid var(--kenko-border) !important;
+  box-shadow:
+    0 18px 55px rgba(15, 23, 42, 0.10),
+    0 2px 10px rgba(15, 23, 42, 0.06) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Force proper layout: header + messages + composer + footer */
+.chat-window {
+  height: 100% !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  display: grid !important;
+  grid-template-rows: auto 1fr auto auto !important;
+  gap: 12px !important;
+  padding: 22px !important;
+  background: transparent !important;
+}
+
+/* Header pill */
+.chat-header {
+  margin: 0 auto 2px auto !important;
+  padding: 10px 18px !important;
+  border-radius: 999px !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold)) !important;
+  box-shadow: 0 10px 24px rgba(31, 138, 87, 0.18) !important;
+}
+
+/* Scroll area */
+.messages-container {
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding: 6px 6px 2px 2px !important;
+}
+
+/* Message bubbles: light theme */
+.message {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  padding: 10px 14px !important;
+  border-radius: 16px !important;
+  max-width: 80% !important;
+}
+
+/* Assistant */
+.message.assistant {
+  background: #ffffff !important;
+  color: var(--kenko-ink) !important;
+  border: 1px solid rgba(15, 23, 42, 0.10) !important;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06) !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+/* User */
+.message.user {
+  background: linear-gradient(120deg, rgba(31, 138, 87, 0.16), rgba(214, 176, 76, 0.20)) !important;
+  color: var(--kenko-ink) !important;
+  border: 1px solid rgba(15, 23, 42, 0.10) !important;
+  font-weight: 650 !important;
+  border-bottom-right-radius: 8px !important;
+}
+
+/* Suggestions: cleaner pills */
+.suggestions {
+  margin: 0 !important;
+  gap: 10px !important;
+}
+
+.suggestions button {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: var(--kenko-ink) !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  padding: 8px 12px !important;
+  border-radius: 999px !important;
+  font-size: 0.88rem !important;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06) !important;
+}
+
+.suggestions button:hover {
+  transform: translateY(-1px) !important;
+  border-color: rgba(31, 138, 87, 0.35) !important;
+}
+
+/* Input row: big, bright */
+.input-area {
+  gap: 12px !important;
+}
+
+.input-area input[type="text"] {
+  background: #ffffff !important;
+  color: var(--kenko-ink) !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  padding: 13px 14px !important;
+  font-size: 0.98rem !important;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06) !important;
+}
+
+.input-area input::placeholder {
+  color: rgba(15, 23, 42, 0.45) !important;
+}
+
+.input-area button {
+  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold)) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  padding: 13px 20px !important;
+  box-shadow: 0 14px 32px rgba(31, 138, 87, 0.18) !important;
+}
+
+.input-area button:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* Typing dots match brand */
+.typing-dots .dot {
+  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold)) !important;
+}
+
+/* Footer */
+.trubiome-footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.10) !important;
+  color: rgba(15, 23, 42, 0.55) !important;
+  padding-top: 10px !important;
+}
+
+.trubiome-footer span {
+  background: linear-gradient(90deg, var(--kenko-green), var(--kenko-gold)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Make sure legacy widget stuff never shows in demo mode */
+.chat-launcher,
+.tooltip-once,
+.chat-widget-container {
+  display: none !important;
+}
+
+/* Mobile: still big but fits */
+@media (max-width: 600px) {
+  .demo-chat-window {
+    height: 82vh !important;
+    border-radius: 20px !important;
+  }
+  .demo-chat-title {
+    font-size: 26px !important;
+  }
+}
