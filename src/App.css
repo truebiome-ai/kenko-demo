@@ -271,3 +271,104 @@ body {
 .chat-widget-container {
   display: none !important;
 }
+/* ===== KENKO: MAKE THE DEMO CARD BIGGER/LONGER ===== */
+.demo-chat-card {
+  width: min(1280px, 96vw) !important;
+}
+
+.demo-chat-window {
+  height: min(86vh, 980px) !important;
+}
+
+@media (max-width: 600px) {
+  .demo-chat-window {
+    height: 88vh !important;
+  }
+}
+/* ===== KENKO: PROFESSIONAL PAGE HEADER (TITLE + SUBTITLE) ===== */
+.demo-chat-header {
+  margin-bottom: 22px !important;
+  padding: 18px 20px !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.demo-chat-title {
+  font-size: 38px !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.04em !important;
+  margin: 0 !important;
+  line-height: 1.1 !important;
+}
+
+.demo-chat-subtitle {
+  margin-top: 10px !important;
+  font-size: 15px !important;
+  color: rgba(15, 23, 42, 0.66) !important;
+}
+
+/* subtle “brand rule” under subtitle */
+.demo-chat-header::after {
+  content: "" !important;
+  display: block !important;
+  height: 3px !important;
+  width: 180px !important;
+  margin: 14px auto 0 !important;
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, rgba(31,138,87,0.85), rgba(214,176,76,0.9)) !important;
+  opacity: 0.9 !important;
+}
+/* ===== KENKO: LESS BLAND (SUBTLE TEXTURE + GLOW) ===== */
+.demo-chat-shell {
+  position: relative !important;
+}
+
+/* subtle texture overlay */
+.demo-chat-shell::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(1200px 700px at 20% 0%, rgba(31,138,87,0.12), transparent 60%),
+    radial-gradient(1200px 700px at 80% 10%, rgba(214,176,76,0.14), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(15,23,42,0.012),
+      rgba(15,23,42,0.012) 1px,
+      transparent 1px,
+      transparent 6px
+    ) !important;
+  opacity: 0.75 !important;
+}
+
+/* make sure content is above overlay */
+.demo-chat-card {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* upgraded card look */
+.demo-chat-window {
+  border: 1px solid rgba(15, 23, 42, 0.10) !important;
+  box-shadow:
+    0 28px 90px rgba(15, 23, 42, 0.12),
+    0 10px 30px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* tighten internal spacing slightly so it feels “app-like” */
+.chat-window {
+  padding: 26px !important;
+  gap: 16px !important;
+}
+/* ===== KENKO: CHAT HEADER PILL (MORE ENTERPRISE) ===== */
+.chat-header {
+  font-size: 0.9rem !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  padding: 10px 16px !important;
+}
