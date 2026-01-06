@@ -93,21 +93,42 @@ Opening message (only once):
   // ------------------------------
   //  LAB UPLOAD HANDLER (calls /api/labs/summarize)
   // ------------------------------
-  const handleLabUpload = async () => {
-    if (!labFile || labBusy) return;
+ const handleLabUpload = async () => {
+  if (!labFile) return;
 
-    setLabBusy(true);
-    setShowSuggestions(false);
+  setLabBusy(true);
+  setShowSuggestions(false);
 
-    // Chat-native status message
+  // Show immediate feedback in-chat
+  setMessages((prev) => [
+    ...prev,
+    {
+      role: "assistant",
+      content:
+        "Got it — reviewing the uploaded labs now (demo mode). This usually takes a few seconds.",
+    },
+  ]);
+
+  // Simulated delay for realism
+  setTimeout(() => {
     setMessages((prev) => [
       ...prev,
       {
         role: "assistant",
         content:
-          "Got it — analyzing the uploaded labs now (demo). This takes a few seconds.",
+          "Here’s a high-level, educational summary based on common patterns seen in labs:\n\n" +
+          "• Consider whether markers related to inflammation, nutrient status, and metabolic function appear consistent with the symptom timeline.\n" +
+          "• If GI symptoms are prominent, labs assessing digestion, absorption, or immune activation may be useful.\n" +
+          "• Correlate any abnormal values with clinical context rather than treating numbers in isolation.\n\n" +
+          "If you’d like, share the primary symptom focus and timeframe and I can suggest reasonable next-step considerations.",
       },
     ]);
+
+    setLabBusy(false);
+    setLabFile(null);
+  }, 2000);
+};
+
 
     try {
       // ✅ formData defined in-scope
@@ -436,7 +457,7 @@ Opening message (only once):
 
                 {/* Footer */}
                 <div className="trubiome-footer">
-                  Powered by <span>TruBiome.AI</span>
+                  Powered by <span>TruBiome.AI </span>
                 </div>
               </motion.div>
             </AnimatePresence>
