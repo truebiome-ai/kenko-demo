@@ -1,638 +1,273 @@
-/* ---------- GLOBAL PAGE ---------- */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+/* -----------------------------
+   KENKO PRACTITIONER DEMO CSS
+   Clean + centered + big + light
+-------------------------------- */
 
 :root {
-  /* Kenko brand */
-  --kenko-green: #1f8a57;
-  --kenko-green-2: #2bb673;
-  --kenko-gold: #d6b04c;
-  --kenko-gold-2: #f2d36b;
+  --green: #1f8a57;
+  --green2: #2bb673;
+  --gold: #d6b04c;
+  --gold2: #f2d36b;
 
-  /* UI */
-  --ink: #0d0a17;
-  --panel: #0b0b14;
-  --panel-2: #121024;
-  --text: #f7f4ff;
-  --muted: rgba(255, 255, 255, 0.65);
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+  --ink: #0f172a;
+  --muted: rgba(15, 23, 42, 0.68);
+  --border: rgba(15, 23, 42, 0.12);
+
+  --shadow-lg: 0 24px 70px rgba(15, 23, 42, 0.12);
+  --shadow-md: 0 12px 32px rgba(15, 23, 42, 0.10);
+  --radius-xl: 26px;
 }
 
 html,
 body {
-  height: auto;
-  min-height: 100%;
-  overflow-y: auto !important;
+  height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #ffffff;
-  color: #1a1528;
-  overflow-y: scroll;
-  min-height: 100%;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 520px at 20% 0%, rgba(31, 138, 87, 0.16), transparent 58%),
+    radial-gradient(900px 520px at 80% 10%, rgba(214, 176, 76, 0.18), transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #fbfbfe 55%, #ffffff 100%);
 }
 
-/* IMPORTANT:
-   Your old widget version anchored .app bottom-right.
-   For centered demo mode, we want .app to not force fixed positioning. */
-.app {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-}
-
-/* ---------- CENTERED DEMO LAYOUT ---------- */
-
+/* wrapper from App.js */
 .demo-chat-shell {
   min-height: 100vh;
-  width: 100%;
-  display: grid;
-  place-items: center;
-  padding: 34px 16px;
-  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* keep title near top */
+  padding: 56px 18px 64px;
 }
 
+/* FULL WIDTH like your universal demo */
 .demo-chat-card {
-  width: min(1100px, 96vw);
+  width: min(1200px, 96vw);
 }
 
+/* title */
 .demo-chat-header {
-  margin-bottom: 14px;
   text-align: center;
+  margin-bottom: 18px;
 }
 
 .demo-chat-title {
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #0f172a;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin: 0;
 }
 
 .demo-chat-subtitle {
-  margin-top: 6px;
-  font-size: 14px;
-  opacity: 0.72;
-  color: #0f172a;
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--muted);
 }
 
-/* This is the actual big centered chat “card” */
+/* BIG card */
 .demo-chat-window {
   width: 100%;
-  height: min(76vh, 800px);
-  border-radius: 22px;
+  height: min(80vh, 860px);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(10px);
   overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.12);
-  background: radial-gradient(
-      1200px 600px at 20% 0%,
-      rgba(31, 138, 87, 0.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 80% 0%,
-      rgba(214, 176, 76, 0.16),
-      transparent 55%
-    ),
-    var(--panel);
 }
 
-/* ---------- CHAT WINDOW CARD (base) ---------- */
-
+/* make the inner chat window a proper app layout */
 .chat-window {
-  width: 100%;
-  max-width: 980px; /* allow larger in demo */
-  background: transparent; /* demo-chat-window provides background */
-  border-radius: 22px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 14px;
+  padding: 22px;
   box-sizing: border-box;
-  max-height: 100%;
-  overflow: hidden;
 }
 
-/* ---------- HEADER ---------- */
-
+/* header pill */
 .chat-header {
-  display: inline-block;
-  width: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
   padding: 10px 18px;
   border-radius: 999px;
-  margin: 0 auto 10px auto;
-  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold));
   color: white;
-  font-weight: 700;
-  text-align: center;
-  box-shadow: 0 8px 24px rgba(31, 138, 87, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: linear-gradient(120deg, var(--green), var(--gold));
+  box-shadow: 0 14px 30px rgba(31, 138, 87, 0.18);
 }
 
-/* ---------- MESSAGES ---------- */
-
+/* scroll area */
 .messages-container {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  position: relative !important;
-  overflow: auto;
-  padding-right: 4px;
-  scrollbar-width: thin;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 6px 2px 2px;
 }
 
-/* message bubbles */
+/* bubbles */
 .message {
-  padding: 9px 12px !important;
-  border-radius: 14px;
-  font-size: 0.92rem !important;
-  line-height: 1.38 !important;
-  max-width: 92% !important;
+  max-width: 78%;
   width: fit-content;
-  margin-top: 4px;
+  padding: 11px 14px;
+  border-radius: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-top: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  box-shadow: var(--shadow-md);
+  background: #fff;
+  color: var(--ink);
 }
 
-/* Assistant on Left */
 .message.assistant {
-  align-self: flex-start !important;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  color: rgba(255, 255, 255, 0.92);
-  border-radius: 14px;
-  border-bottom-left-radius: 6px;
-  backdrop-filter: blur(8px);
+  border-bottom-left-radius: 8px;
 }
 
-/* User on Right */
 .message.user {
-  align-self: flex-end !important;
-  background: linear-gradient(120deg, var(--kenko-green), rgba(214, 176, 76, 0.92));
-  color: #0b0b14; /* dark text on gold/green looks premium */
-  font-weight: 600;
-  border-radius: 14px;
-  border-bottom-right-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  margin-left: auto;
+  background: linear-gradient(
+    120deg,
+    rgba(31, 138, 87, 0.14),
+    rgba(214, 176, 76, 0.20)
+  );
+  font-weight: 650;
+  border-bottom-right-radius: 8px;
 }
 
-/* ---------- SUGGESTIONS ---------- */
+/* typing dots */
+.typing-dots {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.typing-dots .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--green), var(--gold));
+  animation: blink 1.4s infinite ease-in-out both;
+}
+.typing-dots .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots .dot:nth-child(3) { animation-delay: 0.4s; }
 
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.35; transform: scale(1); }
+  40% { opacity: 1; transform: scale(1.25); }
+}
+
+/* suggestions */
 .suggestions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin: 2px 0 6px 0;
-  max-width: 100%;
+  gap: 10px;
+  margin: 0;
 }
 
 .suggestions button {
-  background: rgba(214, 176, 76, 0.12);
-  border: 1px solid rgba(214, 176, 76, 0.55);
-  padding: 7px 12px;
-  border-radius: 12px;
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 9px 12px;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: 0.18s ease;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+  transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
 .suggestions button:hover {
-  background: rgba(214, 176, 76, 0.22);
   transform: translateY(-1px);
-  border-color: rgba(214, 176, 76, 0.8);
+  border-color: rgba(31, 138, 87, 0.32);
 }
 
-/* ---------- INPUT AREA ---------- */
-
+/* input row */
 .input-area {
-  width: 100%;
   display: flex;
-  gap: 10px;
-  box-sizing: border-box;
+  gap: 12px;
+  align-items: center;
 }
 
 .input-area input[type="text"] {
   flex: 1;
-  padding: 12px 14px;
+  padding: 14px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 0.92rem;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #fff;
+  color: var(--ink);
+  font-size: 1rem;
   outline: none;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
 }
 
 .input-area input::placeholder {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(15, 23, 42, 0.45);
 }
 
 .input-area button {
-  padding: 12px 18px;
+  padding: 14px 20px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold));
-  color: #0b0b14;
-  font-weight: 800;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 10px 26px rgba(31, 138, 87, 0.22);
+  font-weight: 900;
+  background: linear-gradient(120deg, var(--green), var(--gold));
+  color: white;
+  box-shadow: 0 14px 32px rgba(31, 138, 87, 0.18);
+  transition: transform 0.15s ease;
 }
 
 .input-area button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 34px rgba(214, 176, 76, 0.24);
 }
 
 .input-area button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* ---------- TYPING DOTS ---------- */
-
-.typing-dots {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-
-.typing-dots .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold));
-  animation: blink 1.4s infinite ease-in-out both;
-}
-
-.typing-dots .dot:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.typing-dots .dot:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes blink {
-  0%,
-  80%,
-  100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  40% {
-    opacity: 1;
-    transform: scale(1.3);
-  }
-}
-
-/* ---------- FOOTER ---------- */
-
+/* footer */
 .trubiome-footer {
-  margin-top: 10px;
-  padding-top: 8px;
   text-align: center;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.62);
-  opacity: 0.9;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  animation: fadeInUp 0.7s ease forwards;
+  font-size: 0.78rem;
+  color: rgba(15, 23, 42, 0.55);
+  padding-top: 10px;
+  border-top: 1px solid rgba(15, 23, 42, 0.10);
 }
 
 .trubiome-footer span {
-  background: linear-gradient(90deg, var(--kenko-green), var(--kenko-gold));
+  background: linear-gradient(90deg, var(--green), var(--gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 800;
-  letter-spacing: 0.4px;
+  font-weight: 900;
 }
 
-/* ---------- ANIMATIONS ---------- */
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 0.9;
-    transform: translateY(0);
-  }
-}
-
-@keyframes riseIn {
-  0% {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ---------- MOBILE ---------- */
-
+/* mobile */
 @media (max-width: 600px) {
-  .demo-chat-card {
-    width: 96vw;
+  .demo-chat-shell {
+    padding: 34px 14px 44px;
   }
-
+  .demo-chat-title {
+    font-size: 28px;
+  }
   .demo-chat-window {
     height: 82vh;
-    border-radius: 18px;
+    border-radius: 20px;
   }
-
-  .chat-window {
-    padding: 14px;
-  }
-
-  .demo-chat-title {
-    font-size: 24px;
+  .message {
+    max-width: 88%;
   }
 }
 
-/* ---------- LEGACY WIDGET STYLES (disabled visually in centered demo) ---------- */
-/* Keeping these so nothing breaks if you later flip back to widget mode */
+/* Hide legacy widget classes if any still exist */
 .chat-launcher,
 .tooltip-once,
 .chat-widget-container {
   display: none !important;
-}
-/* Centered demo container — overrides old widget layout */
-.demo-chat-container {
-  position: relative;
-  width: 100%;
-  max-width: 1100px;
-  background: transparent;
-  border-radius: 22px;
-  box-shadow: none;
-  overflow: visible;
-  display: block;
-}
-/* ===== KENKO DEMO: FORCE PROPER CHAT LAYOUT ===== */
-
-/* This is the big card */
-.demo-chat-window {
-  height: min(76vh, 820px) !important;
-  background: radial-gradient(900px 500px at 20% 0%, rgba(31,138,87,0.10), transparent 60%),
-              radial-gradient(800px 480px at 80% 0%, rgba(214,176,76,0.12), transparent 55%),
-              #0b0b14 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-}
-
-/* Make the inner card a 3-row grid */
-.chat-window {
-  height: 100% !important;
-  max-height: none !important;
-  overflow: hidden !important;
-  display: grid !important;
-  grid-template-rows: auto 1fr auto auto !important;
-  gap: 10px !important;
-  padding: 18px !important;
-}
-
-/* Messages MUST take the remaining space and scroll */
-.messages-container {
-  height: 100% !important;
-  min-height: 0 !important;
-  overflow-y: auto !important;
-  padding-right: 6px !important;
-}
-
-/* Suggestions sit above input, not floating */
-.suggestions {
-  margin: 0 !important;
-  padding-top: 2px !important;
-}
-
-/* Input bar stays pinned */
-.input-area {
-  margin-top: 0 !important;
-}
-
-/* Footer pinned at bottom */
-.trubiome-footer {
-  margin-top: 0 !important;
-  padding-top: 10px !important;
-}
-
-/* Make buttons/input more “Kenko” */
-.input-area button {
-  background: linear-gradient(120deg, #1f8a57, #d6b04c) !important;
-  color: #0b0b14 !important;
-  font-weight: 800 !important;
-}
-
-.chat-header {
-  background: linear-gradient(120deg, #1f8a57, #d6b04c) !important;
-}
-
-/* ==============================
-   KENKO PRACTITIONER DEMO (LIGHT)
-   Big centered demo like your universal page
-   ============================== */
-
-:root {
-  --kenko-green: #1f8a57;
-  --kenko-gold: #d6b04c;
-  --kenko-ink: #0f172a;
-  --kenko-muted: rgba(15, 23, 42, 0.70);
-  --kenko-border: rgba(15, 23, 42, 0.10);
-}
-
-/* Whole page gradient background (white with Kenko tint) */
-.demo-chat-shell {
-  min-height: 100vh !important;
-  padding: 48px 18px !important;
-  background:
-    radial-gradient(900px 520px at 20% 10%, rgba(31, 138, 87, 0.16), transparent 55%),
-    radial-gradient(900px 520px at 80% 15%, rgba(214, 176, 76, 0.18), transparent 55%),
-    linear-gradient(180deg, #ffffff 0%, #fbfbfd 60%, #ffffff 100%) !important;
-}
-
-/* Make the demo container larger like your universal demo */
-.demo-chat-card {
-  width: min(1180px, 96vw) !important;
-}
-
-/* Title area */
-.demo-chat-header {
-  text-align: center !important;
-  margin-bottom: 18px !important;
-}
-
-.demo-chat-title {
-  font-size: 34px !important;
-  font-weight: 900 !important;
-  letter-spacing: -0.03em !important;
-  color: var(--kenko-ink) !important;
-}
-
-.demo-chat-subtitle {
-  margin-top: 8px !important;
-  font-size: 15px !important;
-  color: var(--kenko-muted) !important;
-  opacity: 1 !important;
-}
-
-/* The main chat card becomes LIGHT + big */
-.demo-chat-window {
-  height: min(78vh, 860px) !important;
-  border-radius: 26px !important;
-  overflow: hidden !important;
-  background: rgba(255, 255, 255, 0.78) !important;
-  border: 1px solid var(--kenko-border) !important;
-  box-shadow:
-    0 18px 55px rgba(15, 23, 42, 0.10),
-    0 2px 10px rgba(15, 23, 42, 0.06) !important;
-  backdrop-filter: blur(10px) !important;
-}
-
-/* Force proper layout: header + messages + composer + footer */
-.chat-window {
-  height: 100% !important;
-  max-height: none !important;
-  overflow: hidden !important;
-  display: grid !important;
-  grid-template-rows: auto 1fr auto auto !important;
-  gap: 12px !important;
-  padding: 22px !important;
-  background: transparent !important;
-}
-
-/* Header pill */
-.chat-header {
-  margin: 0 auto 2px auto !important;
-  padding: 10px 18px !important;
-  border-radius: 999px !important;
-  font-weight: 800 !important;
-  color: #fff !important;
-  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold)) !important;
-  box-shadow: 0 10px 24px rgba(31, 138, 87, 0.18) !important;
-}
-
-/* Scroll area */
-.messages-container {
-  height: 100% !important;
-  min-height: 0 !important;
-  overflow-y: auto !important;
-  padding: 6px 6px 2px 2px !important;
-}
-
-/* Message bubbles: light theme */
-.message {
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  padding: 10px 14px !important;
-  border-radius: 16px !important;
-  max-width: 80% !important;
-}
-
-/* Assistant */
-.message.assistant {
-  background: #ffffff !important;
-  color: var(--kenko-ink) !important;
-  border: 1px solid rgba(15, 23, 42, 0.10) !important;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06) !important;
-  border-bottom-left-radius: 8px !important;
-}
-
-/* User */
-.message.user {
-  background: linear-gradient(120deg, rgba(31, 138, 87, 0.16), rgba(214, 176, 76, 0.20)) !important;
-  color: var(--kenko-ink) !important;
-  border: 1px solid rgba(15, 23, 42, 0.10) !important;
-  font-weight: 650 !important;
-  border-bottom-right-radius: 8px !important;
-}
-
-/* Suggestions: cleaner pills */
-.suggestions {
-  margin: 0 !important;
-  gap: 10px !important;
-}
-
-.suggestions button {
-  background: rgba(255, 255, 255, 0.85) !important;
-  color: var(--kenko-ink) !important;
-  border: 1px solid rgba(15, 23, 42, 0.12) !important;
-  padding: 8px 12px !important;
-  border-radius: 999px !important;
-  font-size: 0.88rem !important;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06) !important;
-}
-
-.suggestions button:hover {
-  transform: translateY(-1px) !important;
-  border-color: rgba(31, 138, 87, 0.35) !important;
-}
-
-/* Input row: big, bright */
-.input-area {
-  gap: 12px !important;
-}
-
-.input-area input[type="text"] {
-  background: #ffffff !important;
-  color: var(--kenko-ink) !important;
-  border: 1px solid rgba(15, 23, 42, 0.14) !important;
-  padding: 13px 14px !important;
-  font-size: 0.98rem !important;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06) !important;
-}
-
-.input-area input::placeholder {
-  color: rgba(15, 23, 42, 0.45) !important;
-}
-
-.input-area button {
-  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold)) !important;
-  color: #fff !important;
-  font-weight: 900 !important;
-  padding: 13px 20px !important;
-  box-shadow: 0 14px 32px rgba(31, 138, 87, 0.18) !important;
-}
-
-.input-area button:hover {
-  transform: translateY(-1px) !important;
-}
-
-/* Typing dots match brand */
-.typing-dots .dot {
-  background: linear-gradient(120deg, var(--kenko-green), var(--kenko-gold)) !important;
-}
-
-/* Footer */
-.trubiome-footer {
-  border-top: 1px solid rgba(15, 23, 42, 0.10) !important;
-  color: rgba(15, 23, 42, 0.55) !important;
-  padding-top: 10px !important;
-}
-
-.trubiome-footer span {
-  background: linear-gradient(90deg, var(--kenko-green), var(--kenko-gold)) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-
-/* Make sure legacy widget stuff never shows in demo mode */
-.chat-launcher,
-.tooltip-once,
-.chat-widget-container {
-  display: none !important;
-}
-
-/* Mobile: still big but fits */
-@media (max-width: 600px) {
-  .demo-chat-window {
-    height: 82vh !important;
-    border-radius: 20px !important;
-  }
-  .demo-chat-title {
-    font-size: 26px !important;
-  }
 }
