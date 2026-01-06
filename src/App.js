@@ -141,13 +141,21 @@ Opening message (only once):
     } catch (err) {
       console.error("Lab upload error:", err);
       setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content:
-            "I couldn’t analyze that file. For now, please upload a de-identified PDF or TXT (image OCR not enabled yet).",
-        },
-      ]);
+  ...prev,
+  {
+    role: "assistant",
+    content: `Lab analysis failed: ${err?.message || "Unknown error"}`,
+  },
+]);
+const res = await fetch("/api/labs/summarize", { method: "POST", body: formData });
+
+if (!res.ok) {
+  const msg = await res.text();
+  throw new Error(msg || `HTTP ${res.status}`);
+}
+
+const data = await res.json();
+
     } finally {
       setLabBusy(false);
       setLabFile(null);
