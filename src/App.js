@@ -4,10 +4,8 @@ import { OpenAI } from "openai";
 import "./App.css";
 import { motion, AnimatePresence } from "framer-motion";
 import mockData from "./mockData.json";
-import LabUpload from "./components/LabUpload.jsx";
 
-
-// OpenAI client
+// OpenAI client (DEMO ONLY — do not use for PHI/labs in production)
 const openai = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
@@ -20,10 +18,11 @@ function App() {
   // ✅ DEMO SETTINGS
   const DEMO_MODE_CENTERED = true; // centered, large, always visible
   const PASSWORD_ENABLED = false; // remove password screen
+
   // If you ever re-enable password:
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
-  const correctPassword = "KENKO2026!"; // change if you ever enable PASSWORD_ENABLED
+  const correctPassword = "KENKO2026!";
 
   // Chat states
   const [messages, setMessages] = useState([
@@ -35,6 +34,10 @@ function App() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Lab upload (inline, inside chat)
+  const [labFile, setLabFile] = useState(null);
+  const [labBusy, setLabBusy] = useState(false);
 
   const chatWindowRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
@@ -51,7 +54,7 @@ function App() {
         behavior: "smooth",
       });
     }
-  }, [messages]);
+  }, [messages, loading, labBusy]);
 
   // ------------------------------
   //  SYSTEM PROMPT (Kenko Practitioner)
@@ -91,6 +94,67 @@ Opening message (only once):
   };
 
   // ------------------------------
+  //  LAB UPLOAD HANDLER (server-side endpoint)
+  // ------------------------------
+  const handleLabUpload = async () => {
+    if (!labFile) return;
+    setLabBusy(true);
+    setShowSuggestions(false);
+
+    // Drop a "system-ish" message into the chat so it feels native
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        content:
+          "Got it — analyzing the uploaded labs now (demo). This takes a few seconds.",
+      },
+    ]);
+
+    try {
+      const formData = new FormData();
+      formData.append("labFile", labFile);
+
+      const res = await fetch("/api/labs/summarize", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || "Lab upload failed");
+      }
+
+      const data = await res.json();
+      const summary = data?.summary || "No summary returned.";
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            "Here’s a high-level lab summary (decision-support only):\n\n" +
+            summary +
+            "\n\nIf you want, share the primary symptom focus + timeframe and I’ll suggest next-step options.",
+        },
+      ]);
+    } catch (err) {
+      console.error("Lab upload error:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            "I couldn’t analyze that file. For now, please upload a de-identified PDF or TXT (image OCR not enabled yet).",
+        },
+      ]);
+    } finally {
+      setLabBusy(false);
+      setLabFile(null);
+    }
+  };
+
+  // ------------------------------
   //  SEND MESSAGE
   // ------------------------------
   const sendMessage = async () => {
@@ -100,6 +164,7 @@ Opening message (only once):
     setMessages(newMessages);
     setInput("");
     setLoading(true);
+    setShowSuggestions(false);
 
     try {
       const response = await openai.chat.completions.create({
@@ -222,7 +287,7 @@ Opening message (only once):
               width: "100%",
               padding: "12px",
               borderRadius: "10px",
-              background: "linear-gradient(120deg, #5C3B8F, #7ECF9A)",
+              background: "linear-gradient(120deg, #1f8a57, #d6b04c)",
               color: "white",
               fontWeight: "bold",
               cursor: "pointer",
@@ -250,22 +315,6 @@ Opening message (only once):
               Decision-support chat for symptom patterns, labs, and next steps.
             </div>
           </div>
-<LabUpload
-  onSummaryReady={(summary) => {
-    // Drop the summary into the chat as an assistant message
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content:
-          "Lab Summary (demo):\n\n" +
-          summary +
-          "\n\nIf you want, tell me the main symptom focus + timeline and I’ll suggest next steps.",
-      },
-    ]);
-    setShowSuggestions(false);
-  }}
-/>
 
           <div className="demo-chat-container">
             <AnimatePresence>
@@ -279,6 +328,46 @@ Opening message (only once):
                 <div className="chat-header">Kenko Practitioner AI</div>
 
                 <div className="messages-container">
+                  {/* Inline lab upload action INSIDE the chat */}
+                  <motion.div
+                    className="message assistant lab-upload-message"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <div className="lab-upload-inline">
+                      <div className="lab-upload-inline-title">
+                        Optional: Upload labs for quick analysis
+                      </div>
+                      <div className="lab-upload-inline-subtitle">
+                        Demo guidance only. Upload de-identified labs when
+                        possible (remove name/DOB/MRN). Files are processed
+                        temporarily and not stored.
+                      </div>
+
+                      <div className="lab-upload-inline-row">
+                        <input
+                          type="file"
+                          accept=".pdf,.txt"
+                          onChange={(e) =>
+                            setLabFile(e.target.files?.[0] || null)
+                          }
+                        />
+                        <button
+                          disabled={!labFile || labBusy}
+                          onClick={handleLabUpload}
+                        >
+                          {labBusy ? "Analyzing…" : "Analyze labs"}
+                        </button>
+                      </div>
+
+                      {labFile && (
+                        <div className="lab-upload-inline-file">
+                          Selected: <b>{labFile.name}</b>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+
                   {messages.map((msg, i) => (
                     <motion.div
                       key={i}
