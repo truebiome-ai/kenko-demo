@@ -234,12 +234,8 @@ Tone:
         <div className="demo-chat-card">
           <div className="demo-chat-header">
             <div className="demo-chat-title">Kenko Practitioner AI</div>
-           
-
-            {/* Visible disclaimer banner */}
-            <div className="demo-disclaimer">
-              <b>Decision-support only.</b> Not medical advice. No diagnosis or
-              treatment. Licensed practitioner remains responsible for patient care.
+            <div className="demo-chat-subtitle">
+              Decision-support chat for symptom patterns, labs, and next steps.
             </div>
           </div>
 
