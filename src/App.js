@@ -301,6 +301,9 @@ Opening message (only once):
       <div className="demo-chat-shell">
         <div className="demo-chat-card">
           <div className="demo-chat-header">
+            <div className="practitioner-disclaimer">
+  Educational decision-support only. This tool does not diagnose, treat, or replace clinical judgment.
+</div>
             <div className="demo-chat-title">Kenko Practitioner AI</div>
             <div className="demo-chat-subtitle">
               Decision-support chat for symptom patterns, labs, and next steps.
